@@ -1,16 +1,45 @@
-# This is a sample Python script.
+def first_lesson():
+    print('произведение')
+    a = 5 * 5
+    print('5 * 5 =', a, '\n')
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+    print('частное')
+    a = 5 // 5
+    print('5 / 5 =', a, '\n')
+
+    print('разность')
+    a = 5 - 5
+    print('5 - 5 =', a, '\n')
+
+    print('сумма')
+    a = 5 + 5
+    print('5 + 5 =', a, '\n')
+
+    print('возведение в степень')
+    a = 2 ** 3
+    print('2 ** 3 = ', a, '\n')
+
+    print('остаток от деления')
+    a = 5 % 3
+    b = 5 % 5
+    print('5 % 3 = ', a)
+    print('5 % 5 = ', b)
+    print('____________________________________', '\n')
+
+    print('ПЕРЕМЕННЫЕ', '\n')
+
+    print('ИЗМЕНЯЕМЫЕ ТИПЫ')
+
+    type_list = [1, '2', 3.0]
+    print('тип лист', type(type_list), type_list)
+
+    type_dict = {1: 'one', 'two': 2, 3.0: 3}
+    print('тип словарь', type(type_dict), type_dict)
+
+    type_set = {1, '2', 3.0, 3.0}
+    print('тип множества (не индексируемый, неупорядоченны, не имеет дубликатов', type(type_set), type_set)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    first_lesson()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
