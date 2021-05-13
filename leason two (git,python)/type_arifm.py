@@ -26,7 +26,7 @@ a = 5 % 3
 b = 5 % 5
 print('5 % 3 = ', a)
 print('5 % 5 = ', b)
-print('\n\n')
+print('____________________________________', '\n\n')
 
 #### ТИПЫ ДАННЫХ
 print('ТИПЫ ДАННЫХ')
@@ -34,9 +34,9 @@ print('set,dict,list,string,integer,float,tuple', '\n')
 
 ### ИЗМЕНЯЕМЫЕ ТИПЫ
 print('ИЗМЕНЯЕМЫЕ ТИПЫ')
-print('set - множества')
-print('dict - словарь')
-print('list - список (лист или массив', '\n')
+print('set = множества')
+print('dict = словарь')
+print('list = список (лист или массив', '\n')
 
 ## МНОЖЕСТВА
 print('МНОЖЕСТВА')
@@ -86,11 +86,11 @@ print('\n')
 
 ### НЕ ИЗМЕНЯЕМЫЕ ТИПЫ
 print('НЕИЗМЕНЯЕМЫЕ ТИПЫ')
-print('bool - True/False')
-print('int - целое число')
-print('float - вещественное число')
-print('tuple - кортеж')
-print('str - строка', '\n')
+print('bool = True/False')
+print('int = целое число')
+print('float = вещественное число')
+print('tuple = кортеж')
+print('str = строка', '\n')
 
 # БУЛЕВ
 type_bool = True
