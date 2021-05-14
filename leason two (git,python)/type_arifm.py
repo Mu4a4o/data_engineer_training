@@ -207,13 +207,5 @@ if a in d:
 # for i in type_dict:
 #     print('type_dict =', i)
 # print('\n\n')
-####
-type_dict = {1: 'one', 'two': 2, 3.0: 3}
-type_list = [1, '2', 3.0, 3.0]
-type_tuple = ('one', 2, 3.0,type_dict)
-type_tuple_b = (type_list,type_tuple )
-print(type_tuple_b)
-print(type_tuple_b[0].pop())
-print(type_tuple_b)
-#type_set = {1, '2', 3.0, 3.0,type_dict}
+
 
