@@ -22,7 +22,7 @@ print('Ответ на задание 4\n', 'Элементы кортежа aTu
 # Задание 5
 print('Индекс aList в кортеже bTuple -', bTuple.index(aList))
 print('Индекс элемента [12, 5.7, "c"] в списке aList:', aList.index([12, 5.7, 'c']))
-bTuple[0].pop()
+bTuple[0].pop(5)
 print('Ответ на задание 5\n',bTuple)
 
 
