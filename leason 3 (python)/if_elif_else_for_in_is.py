@@ -93,7 +93,7 @@ type_list = [['восемь', '9.0', '10', '11'], ['12', '13', '14']]
 
 print('\nзначение листа 1 уровня')
 for i in type_list:
-        print('значение листа 1 уровня:', i)
+    print('значение листа 1 уровня:', i)
 
 print('\nзначение листа 2 уровня')
 for i in type_list:
@@ -125,3 +125,23 @@ for i in range(len(type_list)):
         for k in range(len(type_list[i][j])):
             if 'е' in type_list[i][j][k]:
                 print('значение "е" содержиться в индексе:', k, 'слова: ', type_list[i][j])
+
+## циклы словаря
+type_dict = {1: "one", 2: 2.0, "last": [3, 4, 5]}
+print('\nцикл словаря по ключам')
+for key in type_dict:
+    print('ключ словаря:', key)
+
+print('\nцикл словаря по значениям')
+for value in type_dict.values():
+    print('значение словаря:', value)
+
+print('\nцикл словаря по ключам и поиск значения по ключу')
+for key in type_dict:
+    print('ключ словаря:', key,'и его значение', type_dict[key])
+
+print('\nцикл словаря по ключам и их значений')
+for key, value in type_dict.items():
+    print('ключ словаря:', key, 'и его значение', value)
+
+
