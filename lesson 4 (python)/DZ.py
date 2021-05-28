@@ -207,8 +207,8 @@ print(count)
 """
 type_dict_rand = {str(random.randrange(0, 15)) : [random.randrange(0, 15) for i in range(0, 15)] for i in range(0, 15)}
 print(type_dict_rand)
-for value in type_dict_rand.values():
-    print(value)
+for key, value in type_dict_rand.items():
+    print(key, value)
 """
 2.Создать пустой словарь type_dict_count_value. Сделать цикл или циклы, где:
 Ключами будут числа, которые есть в значениях списков в словаре type_dict_rand
