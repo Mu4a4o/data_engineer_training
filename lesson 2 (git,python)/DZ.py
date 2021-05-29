@@ -1,6 +1,6 @@
 ## Оля
 # Задание 1
-print ("")
+print (" ")
 aList = []
 aList.append(8)
 aList.extend([1, 'a', 4.3])
