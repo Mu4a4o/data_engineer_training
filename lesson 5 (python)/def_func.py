@@ -1,4 +1,4 @@
-""" 27.05.2021 МЕТОДЫ И ФУНКЦИИ  """
+""" 02.06.2021 МЕТОДЫ И ФУНКЦИИ  """
 #### МЕТОДЫ И ФУНКЦИИ
 import random
 
@@ -26,7 +26,7 @@ def user_func(x):
 
 
 a = 1
-b = user_func(1)
+b = user_func(a)
 
 print('пример функции user_func(1):', b)
 print("""def user_func(x):
@@ -44,15 +44,15 @@ def user_func(x, y=1):
 
 
 a = 1
-
-b = user_func(1)
-print('\nпример функции user_func(1):', b)
+b = 2
+c = user_func(a)
+print('\nпример функции user_func(1):', c)
 print("""def user_func(x, y=1):
     z = 1(x) + 1(y) + 1
     return 3(z)
 """)
 
-c = user_func(1, 5)
+c = user_func(a, b)
 print('\nпример функции user_func(1, 5):', c)
 print("""def user_func(x, y=1):
     z = 1(x) + 5(y) + 1
@@ -71,7 +71,7 @@ def user_func(x, y=1):
 
 a = 1
 
-user_func(1)
+user_func(a)
 
 print("""def user_func(x, y=1):
     z = 1(x) + 1(y) + 1
@@ -79,7 +79,7 @@ print("""def user_func(x, y=1):
 """)
 
 ## Функция и более сложные типы
-print('\nФункция и болеесложные типы')
+print('\nФункция и более сложные типы')
 
 
 def user_func(x, mutable_list_obj=[]):
@@ -88,9 +88,9 @@ def user_func(x, mutable_list_obj=[]):
     return mutable_list_obj
 
 
-type_list = user_func(1)
-user_func(2, type_list)
-user_func(3, type_list)
+type_list = user_func(x=1)
+type_list = user_func(x=2, mutable_list_obj=type_list)
+type_list = user_func(x=3, mutable_list_obj=type_list)
 
 print('получили на выходе list: ', type_list)
 
@@ -107,7 +107,7 @@ type_int = 10000
 type_list = [random.randrange(0, 100) for i in range(0, 10)]
 type_str = 'пример'
 print('\nвыводим тип *args и его объекты')
-user_func_args(type_int, type_list, type_str)
+user_func_args(type_int, type_list, type_str, 10, 23, 2.0, [2, 3])
 
 
 def user_func_args_mod(*args):
