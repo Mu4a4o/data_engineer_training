@@ -239,3 +239,67 @@ for key in type_dict_rand:
     if int(key) in type_dict_count_value:
         type_dict_count_value[int(key)] += 1
 print(type_dict_count_value)
+
+## Софья
+"""
+1. Требуется сгенерировать словарь type_dict_rand.Ключами будут рандомные str числа.
+В качестве значений у каждого ключа будет сгенерированный рандомный список состоящи из int чисел.
+Ключей будет 15 шт.
+Значений в каждом списке ключа будет тоже 15 шт.
+Пример {'1': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],'2':[1,2,3....}
+"""
+import random
+type_dict_rand = {str(random.randrange(0, 25)):  [random.randrange(0, 25) for i in range(0, 15)] for j in range(0, 15)}
+for key, value in type_dict_rand.items():
+    print(key, value)
+
+"""
+2.Создать пустой словарь type_dict_count_value. Сделать цикл, где:
+Ключами будут числа, которые есть в значениях списков в словаре type_dict_rand
+А значениями ключей будет кол-во найденых чисел во всем словаре type_dict_rand по всем спискам
+Пример
+Есть словарь type_dict_rand {'5': [1,1,2,10],'1': [5,1,2,100]}
+В итоге в type_dict_count_value должно быть { 1 : 3, 2: 2, 10: 1, 100: 1}
+"""
+# способ 1
+# type_dict_count_value = {}
+# list_1 = []
+# for key in type_dict_rand:
+#     for i in range(len(type_dict_rand[key])):
+#      list_1.append(type_dict_rand[key][i])
+# print(list_1)
+# for i in range(len(list_1)):
+#     count = 0
+#     for j in range(len(list_1)):
+#         if list_1[i] == list_1[j]:
+#             count = count+1
+#     type_dict_count_value[list_1[i]] = count
+# print(type_dict_count_value)
+
+# способ 2
+type_dict_count_value = {}
+for i in type_dict_rand:
+    for j in range(len(type_dict_rand[i])):
+        count = 0
+        for key in type_dict_rand:
+            for x in range(len(type_dict_rand[key])):
+             if type_dict_rand[i][j] == type_dict_rand[key][x]:
+              count = count+1
+        type_dict_count_value[type_dict_rand[i][j]] = count
+print(type_dict_count_value)
+
+
+"""
+3.Взять ключи из словаря type_dict_rand и сравнить с ключами type_dict_count_value.
+В случае совпадения сделать инкремент значения ключа в type_dict_count_value
+Пример
+type_dict_rand {'5': [1,1,2,10],'1': [5,1,2,100]}
+type_dict_count_value { 1 : 3, 2: 2, 10: 1, 100: 1}
+После цикла будет так
+type_dict_count_value { 1 : 4, 2: 2, 10: 1, 100: 1}
+"""
+for key, value in type_dict_count_value.items():
+    for i in type_dict_rand:
+        if int(i) == key:
+            type_dict_count_value[key] = type_dict_count_value[key]+1
+print(type_dict_count_value)
