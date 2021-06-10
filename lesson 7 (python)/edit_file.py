@@ -9,6 +9,7 @@ path_log = 'C:/Users/3com/Desktop/Project/data_engineer_training/lesson 7 (pytho
 # способ 1
 # создем объект типа файл. Указываем месторасположение и тип (r - чтение,w - перезапись,a - дозапись)
 # кодировка, используемая для декодирования или кодирования файла
+
 file = open(path_file, 'r', encoding='utf-8')
 # смтотрим что за объект
 print('тип объекта: ', type(file), '\n')
@@ -64,8 +65,12 @@ try:
     print(10/0)
 except Exception as ex:
     sys.stderr = open(path_log, 'a')
-    print(ex)
+    print(ex ,datetime.datetime.now())
     sys.stderr.close()
 finally:
     sys.stdout.close()
 
+
+## срез
+srez = '123456'
+print(srez[:-2])
