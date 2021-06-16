@@ -13,7 +13,6 @@ with open(json_path_dict, 'r') as file:
     data = file.read()
     print('тип data', type(data))
     print('содержание:', data)
-
 obj_json = json.loads(data)
 print('тип:', type(obj_json))
 print('содержание:', obj_json, '\n')
@@ -36,7 +35,7 @@ print('содержание:', obj_json, '\n')
 
 import json
 import requests
-# !!! pip install request
+# !!! install request
 # получаем данный через метод get класса request
 response = requests.get("https://jsonplaceholder.typicode.com/todos")
 # смотрим модержимое
@@ -47,9 +46,17 @@ print('тип:', type(todos))
 print('содержание:', todos)
 
 ## Хранение паролей
-json_path_login = '/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 8 (python)/login.json'
+import json
+json_path_login = 'C:/Users/3com/Desktop/Project/data_engineer_training/lesson 8 (python)/login.json'
 with open(json_path_login, 'r') as file:
-    data = file.read()
+    login = json.loads(file.read())
+print('тип:', type(login))
+print('содержание:', login)
+
+olya_moscow = login['Olya']['Moscow']
+print(olya_moscow)
+
+
 
 
 
