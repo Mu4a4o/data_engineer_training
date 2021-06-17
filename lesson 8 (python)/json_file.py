@@ -47,7 +47,7 @@ print('содержание:', todos)
 
 ## Хранение паролей
 import json
-json_path_login = 'C:/Users/3com/Desktop/Project/data_engineer_training/lesson 8 (python)/login.json'
+json_path_login = 'login.json'
 with open(json_path_login, 'r') as file:
     login = json.loads(file.read())
 print('тип:', type(login))
