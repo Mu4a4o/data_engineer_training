@@ -28,3 +28,30 @@
 Результат join_dict , отправить в функцию save_file_json.
 
 """
+## Денис
+import json
+import requests
+
+
+def dict_url(url):
+    response = requests.get(url)
+    return json.loads(response.text)
+
+
+def join_dict(*args):
+    for i in range(1, len(args)):
+         args[0].update(args[i])
+    return args[0]
+
+def save_file_json(dict_value,path_json):
+    with open(path_json, "w") as write_file:
+        json.dump(dict_value, write_file)
+
+
+url = {'bitcoin': 'https://api.coincap.io/v2/assets/bitcoin',
+       'random_user': 'https://randomuser.me/api/1.3/',
+       'nasa_planetary': 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
+       }
+
+join_dict_value = join_dict(dict_url(url['bitcoin']),dict_url(url['random_user']),dict_url(url['nasa_planetary']))
+save_file_json(join_dict_value, 'denis_json.json')
