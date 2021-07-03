@@ -1,8 +1,8 @@
 aList = []
 aList.append(1)
 aList.append('L')
-aList.append (5.7)
-aList.append ([5, 8, 9])
+aList.append(5.7)
+aList.append([5, 8, 9])
 print(aList, type(aList))
 
 aTuple = (1, 'K', [5, 3.7, 9], {5: 1, 'S': 2, 5.7: 3})
