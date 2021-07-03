@@ -8,16 +8,11 @@ def DZ_decor(DZ_func):
             first_time = time.time()
             print('Текущее время first_time', first_time)
             k = DZ_func(*args)
-            print(6 / 0)
             print('Время выполнения перемножения:', time.time() - first_time)
             return k
         except Exception as ex:
             sys.stderr = open(file, 'a')
-            first_time = time.time()
-            print(ex, 'Текущее время first_time', first_time)
-            k = DZ_func(*args)
-            print('Время выполнения перемножения:', time.time() - first_time)
-            return k
+            print(ex, 'Время ошибки', time.time())
             sys.stderr.close()
         finally:
             sys.stdout.close()
@@ -39,6 +34,7 @@ def DZ_funk(*args):
     if a == 1 and b == 0:
         print('Произведение числовых аргументов указано по умолчанию, числовых аргументов нет выберите другие')
     time.sleep(3)
+    7/0
     return a
 
 DZ_funk(7,3,1,7)
