@@ -60,8 +60,24 @@ values (343,'2021-07-06'), (3059,'2021-07-06'), (7878,'2021-07-06'), (67878,'202
 insert into data_engineer.attribute (attribute)
 values ('red'), ('red'), ('green'), ('white')
 
--- DDL
+-- Просмотр структуры таблицы
+DESCRIBE data_engineer.user_info
 
+-- DML – Data Manipulation Language (язык манипулирования данными)
+/*
+SELECT – выборка данных
+INSERT – вставка новых данных
+UPDATE – обновление данных
+DELETE – удаление данных
+MERGE – слияние данных
+*/
+
+-- DDL – Data Definition Language (язык описания данных)
+/*
+CREATE – создание объектов
+ALTER – изменение объектов
+DROP – удаление объектов
+*/
 
 
 
