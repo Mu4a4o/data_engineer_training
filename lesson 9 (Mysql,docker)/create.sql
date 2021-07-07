@@ -1,3 +1,5 @@
+
+test
 --  устанавливаем DOCKER INSTALLER
 docker desktop installer
 
