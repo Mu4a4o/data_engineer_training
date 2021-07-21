@@ -6,16 +6,16 @@ alter user 'root'@'localhost' IDENTIFIED by 'MyPassword';
 flush privileges;
 
 -- создаем БД
-create database data_engineer
+create database data_engineer;
 
 --смотрим БД
-show databases
+show databases;
 
 -- активируем БД
-use data_engineer
+use data_engineer;
 
 -- смотрим список таблиц
-show tables
+show tables;
 
 -- создаем таблицу c юзерами
 create table data_engineer.user_info
@@ -47,16 +47,32 @@ CREATE table data_engineer.attribute
 -- смотрим список таблиц
 show tables
 
+--смотрим связи на схеме
+WORKBENCH - DATABASES - REVERSE ENGINEER
+
+
+-- снимаем дамп схемы БД без данных
+WORKBENCH - SERVER - DATA EXPORT
+
+-- генерируем данные
+http://filldb.info
+вставляем create table из дампа
+генерируем БД по 1.jpg,2.jpg,3.jpg
+export в beta
+открываем запрос в WORKBENCH и применяем
+
+
+
 -- вставляем данные с юзерами
 insert into data_engineer.user_info (id,name,email,date_create)
-values (343,'Denis','3com@list.ru','2021-07-06'),
+values (3436,'Denis','3com@list.ru','2021-07-06'),
 (3059,'Olya','olya@list.ru','2021-07-06'),
 (7878,'Maks','maks@list.ru','2021-07-06'),
 (67878,'Sofia','sofia@list.ru','2021-07-06')
 
 -- вставляем данные в таблицу связки
 insert into data_engineer.user_attribute (attribute_id,created_at)
-values (343,'2021-07-06'), (3059,'2021-07-06'), (7878,'2021-07-06'), (67878,'2021-07-06')
+values (3436,'2021-07-06'), (3059,'2021-07-06'), (7878,'2021-07-06'), (67878,'2021-07-06')
 
 -- вставляем данные в таблицу атрибутов
 insert into data_engineer.attribute (attribute)
@@ -64,6 +80,10 @@ values ('red'), ('red'), ('green'), ('white')
 
 -- Просмотр структуры таблицы
 DESCRIBE data_engineer.user_info
+
+
+
+
 
 -- DML – Data Manipulation Language (язык манипулирования данными)
 /*
@@ -80,6 +100,19 @@ CREATE – создание объектов
 ALTER – изменение объектов
 DROP – удаление объектов
 */
+
+
+
+
+
+
+
+-- Встроеные функции и математические операции
+-- Остаток от деления
+select 9 % 4
+select 9 % 3
+-- Деление по модулю
+select 9 DIV 4
 
 
 
