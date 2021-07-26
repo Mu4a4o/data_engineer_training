@@ -52,6 +52,7 @@ select * from `subscriber_information` where `comment_when_сonnecting` not in (
 -- ЛИСТ 12,сортировка(ORDER BY) по увеличению(ASC) и уменьшению(DESC)
 select * from `subscriber_information` order by `number_of_tv_devices` ASC;
 
+-- ФУНКЦИИ
 -- ЛИСТ 13, функция агрегация max() поиск максимального значения
 -- 104 строка в EXCEL
 select max(`number_of_tv_devices`) from `subscriber_information`;
@@ -64,8 +65,41 @@ select min(`number_of_tv_devices`) from `subscriber_information`;
 -- 104 строка в EXCEL
 select avg(`number_of_tv_devices`) from `subscriber_information`;
 
+-- rand(), возвращает случайное число
+select rand();
+
+-- round(), обычное округление
+-- ceiling(), округление в ольшую сторону
+-- floor(),  округление в меньшую сторону
+select rand() as r,
+select ceiling() as c,
+select floor() as f;
+
+-- now(), текущая дата
+select now()
+
+-- timestampdiff(в чем нужна разница,период 1,период 2), разница между датами
+select `connection_date`, now() as n,
+timestampdiff(year, `connection_date`,now()) as y,
+timestampdiff(month, `connection_date`,now()) as m,
+timestampdiff(day, `connection_date`,now()) as d,
+timestampdiff(hour, `connection_date`,now()) as h from `data_set`.`subscriber_information`;
+
+-- str_to_date(строка,маска), конвертация строки формата маски в формат даты
+select str_to_date('01.5,2013 12:59','%d.%m,%Y %H:%i');
+
+-- date_format(дата,маска), конвертация даты в формат строки в формате маски
+select date_format(`connection_date`, '%Y%m%d') from `data_set`.`subscriber_information`;
+
+-- concat(1,2,3....), объединение полей
+select concat(`first_name`,' ',`last_name`) from `data_set`.`subscriber_information`;
+
+
+
 
 -- оставляем только уникальные строки(distinct *) или ункикальнын записи в поле(distinct `col_name`)
 -- select distinct * from `subscriber_information`;
 select distinct `number_of_tv_devices` from `subscriber_information`;
+
+
 
