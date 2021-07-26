@@ -11,15 +11,14 @@ create table `data_set`.`subscriber_information`
 `number_of_tv_devices` INT,
 `comment_when_сonnecting` VARCHAR(100));
 
--- ВЫБОР (SELECT)
-
+-- ВЫБОР SELECT
 -- ЛИСТ 1, выбор всех записей(*)
 select * from `data_set`.`subscriber_information`;
 
 -- ЛИСТ 2, выбор определенных колонок,перечисление колонок через запятую
 select `id_abon`,`first_name`,`last_name` from `data_set`.`subscriber_information`;
 
--- ВЫБОР С УСЛОВИЕМ (WHERE)
+-- ВЫБОР С УСЛОВИЕМ WHERE
 
 -- ЛИСТ 3,больше(>) 0  и(and) меньше(<) 3
 select * from `subscriber_information` where `number_of_tv_devices` > 0 and `number_of_tv_devices` < 3;
@@ -94,12 +93,77 @@ select date_format(`connection_date`, '%Y%m%d') from `data_set`.`subscriber_info
 -- concat(1,2,3....), объединение полей
 select concat(`first_name`,' ',`last_name`) from `data_set`.`subscriber_information`;
 
+-- УСЛОВИЯ IF
+-- if(условие, если истина, если не истина), проверка по условию и возврат значений
+select `first_name`,
+if(`first_name` = 'Rick', 'Рик здесь', 'Рика здесь нет') as `where_is_Rick`
+from `data_set`.`subscriber_information`;
 
+-- case, множественное условие when и все остально else
+select `connection_date`,
+case `connection_date`
+    when '2020-01-30' then 'тридцатое'
+    when '2020-01-29' then 'двадцать девятое'
+    else 'все остальные'
+end as `connection_date_varchar`
+from `data_set`.`subscriber_information`;
 
+-- ifnull(поле,вывод вместо null), вместо null ставим свое значение
+select `comment_when_сonnecting`,
+ifnull(`comment_when_сonnecting`,'здесь пусто') as where_is_null
+from `data_set`.`subscriber_information`;
+-- аналогичная конструкция через if:
+select `comment_when_сonnecting`,
+if(`comment_when_сonnecting` is null, 'здесь пусто', `comment_when_сonnecting`) as where_is_null
+from `data_set`.`subscriber_information`;
 
 -- оставляем только уникальные строки(distinct *) или ункикальнын записи в поле(distinct `col_name`)
 -- select distinct * from `subscriber_information`;
 select distinct `number_of_tv_devices` from `subscriber_information`;
+
+--ГРУПИРОВКА GROUP BY
+-- ЛИСТ 16,инициализируем оператор group by и перечисляем поля групировки c функцией агрегации подсчета кол-ва 0 и 1 по полю trust_payment,
+-- а так-же делаем двойную сортировку по возврастанию, где родительская сортировка идет по полю connection_date,
+-- а дочерняя сортировка по полю trust_payment
+select `connection_date`,`trust_payment`,count(`trust_payment`)
+from  `data_set`.`subscriber_information`
+group by `connection_date`,`trust_payment`
+order by `connection_date`,`trust_payment` asc
+
+-- ЛИСТ 17, применяем агрегирующие функции count,max,min,avg,sum
+-- with rollup итоги сводной
+select `connection_date`,
+count(`number_of_tv_devices`),
+max(`number_of_tv_devices`),
+min(`number_of_tv_devices`),
+avg(`number_of_tv_devices`),
+sum(`number_of_tv_devices`)
+from  `data_set`.`subscriber_information`
+group by `connection_date`
+with rollup;
+
+-- group_concat(), заспилтет через запятую все данные указаного поля в групировке
+select `connection_date`,`trust_payment`,count(`trust_payment`),group_concat(`first_name`)
+from  `data_set`.`subscriber_information`
+group by `connection_date`,`trust_payment`
+order by `connection_date`,`trust_payment` asc
+
+-- having, фильтр, который работает так-же как и where, но только с полями сводной таблицы
+select `connection_date`,`trust_payment`,count(`trust_payment`)
+from  `data_set`.`subscriber_information`
+group by `connection_date`,`trust_payment`
+having  `trust_payment` = 1
+order by `connection_date`,`trust_payment` asc
+
+-- having, фильтр с использованием LIKE поля group_concat_first_name
+select `connection_date`,`trust_payment`,count(`trust_payment`) as `count_trust_payment`,group_concat(`first_name`) as `group_concat_first_name`
+from  `data_set`.`subscriber_information`
+group by `connection_date`,`trust_payment`
+having  `group_concat_first_name` like ('%Johnny%')
+order by `connection_date`,`trust_payment` asc
+
+
+
 
 
 
