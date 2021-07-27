@@ -12,8 +12,16 @@ create table `data_set`.`subscriber_information`
 `comment_when_сonnecting` VARCHAR(100));
 
 -- ВЫБОР SELECT
+
+
 -- ЛИСТ 1, выбор всех записей(*)
 select * from `data_set`.`subscriber_information`;
+
+--выбор первых 10 записей
+select * from `data_set`.`subscriber_information` limit 10;
+
+--пропустиить первые 5 записей и показать следующие 10 записи
+select * from `data_set`.`subscriber_information` limit 10 offset 5;
 
 -- ЛИСТ 2, выбор определенных колонок,перечисление колонок через запятую
 select `id_abon`,`first_name`,`last_name` from `data_set`.`subscriber_information`;
@@ -162,6 +170,32 @@ group by `connection_date`,`trust_payment`
 having  `group_concat_first_name` like ('%Johnny%')
 order by `connection_date`,`trust_payment` asc
 
+-- порядок выполнения запросов, стандарт для SQL,но есть иссключения, пример кода ниже.
+-- https://andreyex.ru/bazy-dannyx/baza-dannyx-mysql/poryadok-operatsij-sql-v-kakom-poryadke-mysql-vypolnyaet-zaprosy/
+/*
+1.FROM, включая JOINs
+2.WHERE
+3.GROUP BY
+4.HAVING
+5.Функции WINDOW
+6.SELECT
+7.DISTINCT
+8.UNION
+9.ORDER BY
+10.LIMIT и OFFSET
+*/
+-- пример не правильного запроса, т.к where формируется раньше select и он не знает про псевдоним day_
+select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
+from `data_set`.`subscriber_information`
+where day_ < 567;
+-- пример правильного запроса, дублируем формулу подсчета в where
+select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
+from `data_set`.`subscriber_information`
+where timestampdiff(day, `connection_date`,now()) < 567;
+-- В mysql, having по приоритету идет в обход стандарта и стоит на уровне order by, поэтому видим псевдоним day_
+select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
+from `data_set`.`subscriber_information`
+having day_ < 567;
 
 
 
