@@ -12,8 +12,6 @@ create table `data_set`.`subscriber_information`
 `comment_when_сonnecting` VARCHAR(100));
 
 -- ВЫБОР SELECT
-
-
 -- ЛИСТ 1, выбор всех записей(*)
 select * from `data_set`.`subscriber_information`;
 
@@ -76,7 +74,7 @@ select avg(`number_of_tv_devices`) from `subscriber_information`;
 select rand();
 
 -- round(), обычное округление
--- ceiling(), округление в ольшую сторону
+-- ceiling(), округление в большую сторону
 -- floor(),  округление в меньшую сторону
 select rand() as r,
 select ceiling() as c,
@@ -85,12 +83,7 @@ select floor() as f;
 -- now(), текущая дата
 select now()
 
--- timestampdiff(в чем нужна разница,период 1,период 2), разница между датами
-select `connection_date`, now() as n,
-timestampdiff(year, `connection_date`,now()) as y,
-timestampdiff(month, `connection_date`,now()) as m,
-timestampdiff(day, `connection_date`,now()) as d,
-timestampdiff(hour, `connection_date`,now()) as h from `data_set`.`subscriber_information`;
+
 
 -- str_to_date(строка,маска), конвертация строки формата маски в формат даты
 select str_to_date('01.5,2013 12:59','%d.%m,%Y %H:%i');
@@ -115,6 +108,15 @@ case `connection_date`
     else 'все остальные'
 end as `connection_date_varchar`
 from `data_set`.`subscriber_information`;
+
+__________________________Часть 2__________________________________________
+-- timestampdiff(в чем нужна разница,период 1,период 2), разница между датами
+select `connection_date`, now() as n,
+timestampdiff(year, `connection_date`,now()) as y,
+timestampdiff(month, `connection_date`,now()) as m,
+timestampdiff(day, `connection_date`,now()) as d,
+timestampdiff(hour, `connection_date`,now()) as h from `data_set`.`subscriber_information`;
+
 
 -- ifnull(поле,вывод вместо null), вместо null ставим свое значение
 select `comment_when_сonnecting`,
@@ -189,13 +191,16 @@ select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
 from `data_set`.`subscriber_information`
 where day_ < 567;
 -- пример правильного запроса, дублируем формулу подсчета в where
+-- 0.0017 sec
 select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
 from `data_set`.`subscriber_information`
 where timestampdiff(day, `connection_date`,now()) < 567;
 -- В mysql, having по приоритету идет в обход стандарта и стоит на уровне order by, поэтому видим псевдоним day_
+-- 0.0013 sec
 select `connection_date`,timestampdiff(day, `connection_date`,now()) as day_
 from `data_set`.`subscriber_information`
 having day_ < 567;
+
 
 
 
