@@ -51,9 +51,8 @@ select *
 from  `subscriber_information_join`
 
 
-
--- left join горизонтальное объедиение таблиц
--- происходит левое объедиение таблиц. Где к таблице, которая указана первой(левая) во from присоединяется вторая(правая) таблица
+-- LEFT JOIN горизонтальное объедиение таблиц
+-- происходит левое объедиение таблиц, где к таблице, которая указана первой(левая) во from присоединяется вторая(правая) таблица
 -- через оператор 'left join'. После через оператор 'on' определяется ключ или ключи.
 -- Левая таблица основная. Все ее строки сохраняются, там где нет совпадений по ключу правой таблицы в новых полях проставляются null
 select `si`.*, `pi`.`day`,`pi`.`traffic_gb`
@@ -61,8 +60,47 @@ from  `subscriber_information_join` as `si`
 left join  `period_traffic_join` as `pi`
 on `pi`.`id_abon` = `si`.`id_abon`
 
+-- INNER JOIN горизонтальное объедиение таблиц
+-- происходит объединение таблиц только по общим ключам
+select `si`.*, `pi`.`day`,`pi`.`traffic_gb`
+from  `subscriber_information_join` as `si`
+inner join  `period_traffic_join` as `pi`
+on `pi`.`id_abon` = `si`.`id_abon`
 
 
+-- FULL JOIN объединение LEFT JOIN + RIGHT JOIN
+-- т.к. Mysql нет `FULL JOIN` логика реализуется через UNION
+select *
+from  `subscriber_information_join`
+left join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
+union
+select *
+from  `subscriber_information_join`
+right join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
 
+-- FULL JOIN объединение LEFT JOIN + RIGHT JOIN
+-- т.к. Mysql нет `FULL JOIN` логика реализуется через UNION
+select *
+from  `subscriber_information_join`
+left join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
+union
+select *
+from  `subscriber_information_join`
+right join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
 
-
+-- FULL JOIN, но оставляем только те данные что отстутсвуют в соседних таблицах
+select *
+from  `subscriber_information_join`
+left join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
+where `period_traffic_join`.`id_abon` is null
+union
+select *
+from  `subscriber_information_join`
+right join `period_traffic_join`
+on `subscriber_information_join`.`id_abon` = `period_traffic_join`.`id_abon`
+where `subscriber_information_join`.`id_abon` is null
