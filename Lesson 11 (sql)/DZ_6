@@ -9,9 +9,9 @@ create table `data_set`.`abon_podkl`
 FOREIGN KEY (`id_abon`) REFERENCES `subscriber_information` (`id_abon`)
 );
 
-create table `data_set`.`abon_sales`
+create table `data_set`.`abon_discount`
 (`id_podkl` INT PRIMARY KEY,
-`sale` INT,
-`date_start_sale` DATE,
-`date_end_sale` DATE,
+`discount` INT,
+`date_start_discount` DATE,
+`date_end_discount` DATE,
 FOREIGN KEY (`id_podkl`) REFERENCES `abon_podkl` (`id_podkl`));
