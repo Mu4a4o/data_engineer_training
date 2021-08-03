@@ -57,7 +57,7 @@ from  `subscriber_information_join`
 -- Левая таблица основная. Все ее строки сохраняются, там где нет совпадений по ключу правой таблицы в новых полях проставляются null
 select `si`.*, `pi`.`day`,`pi`.`traffic_gb`
 from  `subscriber_information_join` as `si`
-left join  `period_traffic_join` as `pi`
+right join  `period_traffic_join` as `pi`
 on `pi`.`id_abon` = `si`.`id_abon`
 
 -- INNER JOIN горизонтальное объедиение таблиц
