@@ -1,17 +1,20 @@
 create table `data_set`.`abon_podkl`
-(`id_podkl` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+(`id_podkl` INT PRIMARY KEY NOT NULL,
 `id_abon` VARCHAR(50),
-`connection_date` DATE ,
+`date_podkl` DATE ,
+FOREIGN KEY (`id_abon`) REFERENCES `subscriber_information` (`id_abon`));
+
+create table `data_set`.`abon_spis`
+(`id_podkl` INT PRIMARY KEY,
 `tarif_before` VARCHAR(100),
 `tarif_after` VARCHAR(100),
 `spis_before` INT,
 `spis_after` INT,
-FOREIGN KEY (`id_abon`) REFERENCES `subscriber_information` (`id_abon`)
-);
+FOREIGN KEY (`id_podkl`) REFERENCES `abon_podkl` (`id_podkl`));
 
-create table `data_set`.`abon_discount`
+create table `data_set`.`abon_sales`
 (`id_podkl` INT PRIMARY KEY,
-`discount` INT,
-`date_start_discount` DATE,
-`date_end_discount` DATE,
+`sale` FLOAT(2),
+`date_start_sale` DATE,
+`date_end_sale` DATE,
 FOREIGN KEY (`id_podkl`) REFERENCES `abon_podkl` (`id_podkl`));
