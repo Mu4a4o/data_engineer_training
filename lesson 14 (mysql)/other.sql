@@ -17,7 +17,7 @@ FROM
 `subscriber_information`
 ORDER BY `connection_date`,`row_number_date`
 
--- выводим предыдущую строку  при помощи функции LEAD
+-- выводим следующую строку при помощи функции LEAD
 SELECT
 `id_abon`,
 `connection_date`,
@@ -25,7 +25,7 @@ LEAD(`connection_date`,1) OVER (ORDER BY  `id_abon`) as `lead_date`
 FROM
 `subscriber_information`
 
--- выводим следующую строку  при помощи функции LAG
+-- выводим предыдущую строку  при помощи функции   LAG
 SELECT
 `id_abon`,
 `connection_date`,
@@ -51,7 +51,7 @@ LEFT JOIN `period_traffic_join` as `t2` ON `t1`.`id_abon` = `t2`.`id_abon`
 
 
 -- фильтры при джойне или основной фильтр
-/*SELECT *
+SELECT *
 FROM `subscriber_information` as `t1`
 LEFT JOIN `period_traffic` as `t2` ON `t1`.`id_abon` = `t2`.`id_abon`
 WHERE  `traffic_gb` > 400*/
