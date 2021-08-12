@@ -1,4 +1,4 @@
-use data_set;
+
 CREATE table data_set.abon_cities
 (
     id_abon VARCHAR(50) PRIMARY KEY,
@@ -6,12 +6,58 @@ CREATE table data_set.abon_cities
     FOREIGN KEY (city)  REFERENCES states (s_city),
     FOREIGN KEY (id_abon)  REFERENCES  subscriber_information (id_abon)
 );
+insert into data_set.states  (`s_city`,`state`) values ('Montgomery','Alabama');
+insert into data_set.states  (`s_city`,`state`) values ('Juneau','Alaska');
+insert into data_set.states  (`s_city`,`state`) values ('Phoenix','Arizona');
+insert into data_set.states  (`s_city`,`state`) values ('Little Rock','Arkansas');
+insert into data_set.states  (`s_city`,`state`) values ('Sacramento','California');
+insert into data_set.states  (`s_city`,`state`) values ('Denver','Colorado');
+insert into data_set.states  (`s_city`,`state`) values ('Hartford','Connecticut');
+insert into data_set.states  (`s_city`,`state`) values ('Dover','Delaware');
+insert into data_set.states  (`s_city`,`state`) values ('Tallahassee','Florida');
+insert into data_set.states  (`s_city`,`state`) values ('Atlanta','Georgia');
+insert into data_set.states  (`s_city`,`state`) values ('Honolulu','Hawaii');
+insert into data_set.states  (`s_city`,`state`) values ('Boise','Idaho');
+insert into data_set.states  (`s_city`,`state`) values ('Springfield','Illinois');
+insert into data_set.states  (`s_city`,`state`) values ('Indianapolis','Indiana');
+insert into data_set.states  (`s_city`,`state`) values ('Des Moines','Iowa');
+insert into data_set.states  (`s_city`,`state`) values ('Topeka','Kansas');
+insert into data_set.states  (`s_city`,`state`) values ('Frankfort','Kentucky');
+insert into data_set.states  (`s_city`,`state`) values ('Baton Rouge','Louisiana');
+insert into data_set.states  (`s_city`,`state`) values ('Augusta','Maine');
+insert into data_set.states  (`s_city`,`state`) values ('Annapolis','Maryland');
+insert into data_set.states  (`s_city`,`state`) values ('Boston','Massachusetts');
+insert into data_set.states  (`s_city`,`state`) values ('Lansing','Michigan');
+insert into data_set.states  (`s_city`,`state`) values ('Saint Paul','Minnesota');
+insert into data_set.states  (`s_city`,`state`) values ('Jackson','Mississippi');
+insert into data_set.states  (`s_city`,`state`) values ('Jefferson City','Missouri');
+insert into data_set.states  (`s_city`,`state`) values ('Helena','Montana');
+insert into data_set.states  (`s_city`,`state`) values ('Lincoln','Nebraska');
+insert into data_set.states  (`s_city`,`state`) values ('Carson City','Nevada');
+insert into data_set.states  (`s_city`,`state`) values ('Concord','New Hampshire');
+insert into data_set.states  (`s_city`,`state`) values ('Trenton','New Jersey');
+insert into data_set.states  (`s_city`,`state`) values ('Santa Fe','New Mexico');
+insert into data_set.states  (`s_city`,`state`) values ('Albany','New York');
+insert into data_set.states  (`s_city`,`state`) values ('Raleigh','North Carolina');
+insert into data_set.states  (`s_city`,`state`) values ('Bismarck','North Dakota');
+insert into data_set.states  (`s_city`,`state`) values ('Columbus','Ohio');
+insert into data_set.states  (`s_city`,`state`) values ('Oklahoma City','Oklahoma');
+insert into data_set.states  (`s_city`,`state`) values ('Salem','Oregon');
+insert into data_set.states  (`s_city`,`state`) values ('Harrisburg','Pennsylvania');
+insert into data_set.states  (`s_city`,`state`) values ('Providence','Rhode Island');
+insert into data_set.states  (`s_city`,`state`) values ('Columbia','South Carolina');
+insert into data_set.states  (`s_city`,`state`) values ('Pierre','South Dakota');
+insert into data_set.states  (`s_city`,`state`) values ('Nashville','Tennessee');
+insert into data_set.states  (`s_city`,`state`) values ('Austin','Texas');
+insert into data_set.states  (`s_city`,`state`) values ('Salt Lake City','Utah');
+insert into data_set.states  (`s_city`,`state`) values ('Montpelier','Vermont');
+insert into data_set.states  (`s_city`,`state`) values ('Richmond','Virginia');
+insert into data_set.states  (`s_city`,`state`) values ('Olympia','Washington');
+insert into data_set.states  (`s_city`,`state`) values ('Charleston','West Virginia');
+insert into data_set.states  (`s_city`,`state`) values ('Madison','Wisconsin');
+insert into data_set.states  (`s_city`,`state`) values ('Cheyenne','Wyoming');
 
-CREATE table data_set.states
-(
-    s_city varchar(255) PRIMARY KEY,
-    state varchar(255)
-);
+
 
 insert into data_set.abon_cities  (`id_abon`,`city`) values ('fdf40c5f-50d4-4d9f-a015-b5aece2aa944','Montgomery');
 insert into data_set.abon_cities  (`id_abon`,`city`) values ('d8e7f123-18f6-4c09-a683-d466ee1217e1','Montgomery');
@@ -113,56 +159,5 @@ insert into data_set.abon_cities  (`id_abon`,`city`) values ('964c1902-e1db-440e
 insert into data_set.abon_cities  (`id_abon`,`city`) values ('4ef47e0b-6751-4462-8883-5984a98a5370','Nashville');
 insert into data_set.abon_cities  (`id_abon`,`city`) values ('dede7ffa-d32e-4efd-a789-8d89d75348cd','Nashville');
 insert into data_set.abon_cities  (`id_abon`,`city`) values ('bf97da52-38c9-4a36-b147-7fe336c35c66','Nashville');
-
-insert into data_set.states  (`s_city`,`state`) values ('Montgomery','Alabama');
-insert into data_set.states  (`s_city`,`state`) values ('Juneau','Alaska');
-insert into data_set.states  (`s_city`,`state`) values ('Phoenix','Arizona');
-insert into data_set.states  (`s_city`,`state`) values ('Little Rock','Arkansas');
-insert into data_set.states  (`s_city`,`state`) values ('Sacramento','California');
-insert into data_set.states  (`s_city`,`state`) values ('Denver','Colorado');
-insert into data_set.states  (`s_city`,`state`) values ('Hartford','Connecticut');
-insert into data_set.states  (`s_city`,`state`) values ('Dover','Delaware');
-insert into data_set.states  (`s_city`,`state`) values ('Tallahassee','Florida');
-insert into data_set.states  (`s_city`,`state`) values ('Atlanta','Georgia');
-insert into data_set.states  (`s_city`,`state`) values ('Honolulu','Hawaii');
-insert into data_set.states  (`s_city`,`state`) values ('Boise','Idaho');
-insert into data_set.states  (`s_city`,`state`) values ('Springfield','Illinois');
-insert into data_set.states  (`s_city`,`state`) values ('Indianapolis','Indiana');
-insert into data_set.states  (`s_city`,`state`) values ('Des Moines','Iowa');
-insert into data_set.states  (`s_city`,`state`) values ('Topeka','Kansas');
-insert into data_set.states  (`s_city`,`state`) values ('Frankfort','Kentucky');
-insert into data_set.states  (`s_city`,`state`) values ('Baton Rouge','Louisiana');
-insert into data_set.states  (`s_city`,`state`) values ('Augusta','Maine');
-insert into data_set.states  (`s_city`,`state`) values ('Annapolis','Maryland');
-insert into data_set.states  (`s_city`,`state`) values ('Boston','Massachusetts');
-insert into data_set.states  (`s_city`,`state`) values ('Lansing','Michigan');
-insert into data_set.states  (`s_city`,`state`) values ('Saint Paul','Minnesota');
-insert into data_set.states  (`s_city`,`state`) values ('Jackson','Mississippi');
-insert into data_set.states  (`s_city`,`state`) values ('Jefferson City','Missouri');
-insert into data_set.states  (`s_city`,`state`) values ('Helena','Montana');
-insert into data_set.states  (`s_city`,`state`) values ('Lincoln','Nebraska');
-insert into data_set.states  (`s_city`,`state`) values ('Carson City','Nevada');
-insert into data_set.states  (`s_city`,`state`) values ('Concord','New Hampshire');
-insert into data_set.states  (`s_city`,`state`) values ('Trenton','New Jersey');
-insert into data_set.states  (`s_city`,`state`) values ('Santa Fe','New Mexico');
-insert into data_set.states  (`s_city`,`state`) values ('Albany','New York');
-insert into data_set.states  (`s_city`,`state`) values ('Raleigh','North Carolina');
-insert into data_set.states  (`s_city`,`state`) values ('Bismarck','North Dakota');
-insert into data_set.states  (`s_city`,`state`) values ('Columbus','Ohio');
-insert into data_set.states  (`s_city`,`state`) values ('Oklahoma City','Oklahoma');
-insert into data_set.states  (`s_city`,`state`) values ('Salem','Oregon');
-insert into data_set.states  (`s_city`,`state`) values ('Harrisburg','Pennsylvania');
-insert into data_set.states  (`s_city`,`state`) values ('Providence','Rhode Island');
-insert into data_set.states  (`s_city`,`state`) values ('Columbia','South Carolina');
-insert into data_set.states  (`s_city`,`state`) values ('Pierre','South Dakota');
-insert into data_set.states  (`s_city`,`state`) values ('Nashville','Tennessee');
-insert into data_set.states  (`s_city`,`state`) values ('Austin','Texas');
-insert into data_set.states  (`s_city`,`state`) values ('Salt Lake City','Utah');
-insert into data_set.states  (`s_city`,`state`) values ('Montpelier','Vermont');
-insert into data_set.states  (`s_city`,`state`) values ('Richmond','Virginia');
-insert into data_set.states  (`s_city`,`state`) values ('Olympia','Washington');
-insert into data_set.states  (`s_city`,`state`) values ('Charleston','West Virginia');
-insert into data_set.states  (`s_city`,`state`) values ('Madison','Wisconsin');
-insert into data_set.states  (`s_city`,`state`) values ('Cheyenne','Wyoming');
 
 
