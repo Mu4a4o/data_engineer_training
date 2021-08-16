@@ -145,3 +145,5 @@ print('создаем новый список с использованием ma
 type_list_map_method_test = list(map(method_test, type_list_random_number))
 print('\nсгенерировали случайный список чисел :', type_list_random_number)
 print('создаем новый список с использованием map и method_test:', type_list_map_method_test)
+##
+
