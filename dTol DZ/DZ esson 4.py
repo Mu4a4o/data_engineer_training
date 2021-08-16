@@ -117,7 +117,7 @@ print(type_dict_count_value)
 # После цикла будет так
 # type_dict_count_value { 1 : 4, 2: 2, 10: 1, 100: 1}
 for key,value in type_dict_count_value.items():
-    for i,y in type_dict_rand.items():
+    for i in type_dict_rand.keys():
         if key==int(i):
             value+=1
     type_dict_count_value[key]=value
