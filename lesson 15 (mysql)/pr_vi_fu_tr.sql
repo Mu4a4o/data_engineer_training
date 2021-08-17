@@ -1,4 +1,5 @@
--- Создание отображение
+-- Создание представление/отображение
+-- Динамическая таблица, где кэширование обновляется атоматически с обновлением базы
 CREATE VIEW `new_view` AS
 select * from  `subscriber_information`
 left join `period_traffic` USING(`id_abon`)
@@ -6,7 +7,7 @@ left join `period_traffic` USING(`id_abon`)
 SELECT * FROM data_set.new_view;
 
 -- Создание процедур
--- создаем процедуру, которая  принимает дату на вход  и возвращает таблицу по этой дате
+-- создаем процедуру, которая  принимает на вход дату и возвращает таблицу по этой дате
 CREATE  PROCEDURE `table_to_date`(in in_date date) -- список переменных подающих на вход
 BEGIN
 	SELECT *
@@ -51,7 +52,7 @@ select `count_str`(@s);
 START TRANSACTION;
 INSERT INTO `data_set`.`subscriber_information`
 (`id_abon`,`first_name`,`last_name`,`connection_date`,`trust_payment`,`number_of_internet_devices`,`number_of_tv_devices`,`comment_when_сonnecting`)
-VALUES ('1','Test','Test','2020-01-01',1,0,0,null);
+VALUES (''1,'Test','Test','2020-01-01',1,0,0,null);
 --COMMIT;
 --ROLLBACK;
 
@@ -89,3 +90,36 @@ CALL `data_set`.`insert_into_table` ('111111111111111111111111111111111112','Tes
 select * from `subscriber_information`
 -- Удаляем не нужный id
 DELETE FROM `data_set`.`subscriber_information` WHERE `id_abon` = '111111111111111111111111111111111112';
+
+
+-- Триггеры
+-- Время триггера
+BEFORE --  триггер выполнятеся перед выполнением запроса (позволяет контролировать процесс изменения данных)
+AFTER -- после выполнения запроса выполняется запрос триггера (после изменения данных происходит запрос триггера)
+
+-- Флаг/действие триггера
+CREATE,DELETE,UPDATE -- при каких запросах должен сработать
+-- Тип поля
+NEW.name_columns -- NEW говорит о новых данных
+
+-- Пример триггера на проверку кол-ва символов при инсерте поля subscriber_information.id_abon
+CREATE DEFINER = CURRENT_USER TRIGGER `data_set`.`subscriber_information_BEFORE_INSERT` BEFORE INSERT ON `subscriber_information` FOR EACH ROW
+BEGIN
+	IF (SELECT `count_str`(NEW.`id_abon`)) < 36 THEN
+		SIGNAL sqlstate '45000'
+			SET message_text = 'id_abon < 36 simbols';
+	END IF;
+END
+
+--Проеверка на срабатываание триггера
+INSERT INTO `data_set`.`subscriber_information`
+(`id_abon`,
+`first_name`,
+`last_name`,
+`connection_date`,
+`trust_payment`,
+`number_of_internet_devices`,
+`number_of_tv_devices`,
+`comment_when_сonnecting`)
+VALUES
+('1','Test','Test','2020-01-01',1,0,0,null);

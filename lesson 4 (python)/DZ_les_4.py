@@ -367,13 +367,12 @@ print(type_dict_count_value)
 # В списке должны быть числа типа str.
 # В словаре в качестве ключа должны быть числа типа int,а в качестве значений True/False (тип bool и тоже определяются рандомом).
 import random
-type_list_rand=[random.randrange(0,15) for i in range(0,15)]
+type_list_rand=[random.randrange(0,15)for i in range(0,15)]
 for j in type_list_rand:
     j=str(j)
 type_dict_random = {random.randrange(0, 15): random.choice([True,False]) for i in range(0,15)}
 print(type_list_rand, '\nв списке числа типа:', type(type_list_rand[0]))
 print(type_dict_random)
-
 
 ## 2. Сделать цикл и условную конструкцию которая ищет одинаковые числа в type_dict_rand и type_list_rand (не забываем про
 # преобразование str в int или наоборот при их поиске) В случае нахождения совпадений, требуется изменить в type_dict_rand по ключу True на ['False'] и False на 'True', а так-же
@@ -386,14 +385,14 @@ for j in type_list_rand:
     j=int(j)
 # Когда делаешь цикл, нужно делать отступ вправо на следующей строке
 for key,value in type_dict_random.items():
-if key in type_list_rand:
-    count += 1
-    if True is value:
-        type_dict_random[key] = False
-        c+=1
-    if False is value:
-        type_dict_random[key] = True
-        d+=1
+    if key in type_list_rand:
+        count += 1
+        if True is value:
+            type_dict_random[key] = False
+            c+=1
+        if False is value:
+            type_dict_random[key] = True
+            d+=1
 print(count,c,d)
 print(type_dict_random)
 
