@@ -1,3 +1,10 @@
+-- Создание отображение
+CREATE VIEW `new_view` AS
+select * from  `subscriber_information`
+left join `period_traffic` USING(`id_abon`)
+-- Вызов отображения
+SELECT * FROM data_set.new_view;
+
 -- Создание процедур
 -- создаем процедуру, которая  принимает дату на вход  и возвращает таблицу по этой дате
 CREATE  PROCEDURE `table_to_date`(in in_date date) -- список переменных подающих на вход
@@ -63,12 +70,13 @@ in comment_when_сonnecting varchar(100)
 )
 BEGIN
     START TRANSACTION; -- Включаем транзакцию
-    IF (SELECT `count_str`(id_abon)) < 36 THEN ROLLBACK; -- Прверяем при помощи соданной функции кол-во символов. Если меньше 36,то ROLLBACK
+    IF (SELECT `count_str`(id_abon)) < 36 THEN ROLLBACK; SELECT 'ROLLBACK'; -- Прверяем при помощи соданной функции кол-во символов. Если меньше 36,то ROLLBACK
     ELSE -- Если 36 и более то инсертим данные и коммитим
 		INSERT INTO `data_set`.`subscriber_information`
 			(`id_abon`,`first_name`,`last_name`,`connection_date`,`trust_payment`,`number_of_internet_devices`,`number_of_tv_devices`,`comment_when_сonnecting`)
 	 		VALUES (id_abon,first_name,last_name,connection_date,trust_payment,number_of_internet_devices,number_of_tv_devices,comment_when_сonnecting);
 		COMMIT;
+		SELECT 'COMMIT';
     END IF;
 END
 
