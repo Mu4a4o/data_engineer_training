@@ -8,15 +8,27 @@ where si.connection_date >= '2020-01-15'
 
 1.3 Вывести connection_date и агрегацию connection_date по кол-ву, где connection_date от '2020.01.15'(не вклюительно)
 
+в1
+
 select connection_date, count(connection_date) from data_set.subscriber_information
 group by connection_date
 having connection_date > '2020-01-15'
+
+в2
+
+select connection_date, count(connection_date) from data_set.subscriber_information
+where connection_date > '2020-01-15'
+group by connection_date
+
+
 
 1.4 Вывести группировку из 1.3 и добавить поля с агрегацией, где указаны максимумы по полю  number_of_tv_devices и number_of_internet_devices
 
 select connection_date, count(connection_date), max(number_of_tv_devices),max(number_of_internet_devices) from data_set.subscriber_information
 group by connection_date
 having connection_date > '2020-01-15'
+
+
 
 1.5 Вывести кол-во плохих и хороших комментариев по датам подключения.
 (???Думал как то с with rollup сделать, не понял как,
@@ -25,7 +37,9 @@ with rollup;)
 
 вариант 1
 
-select connection_date, count(comment_when_сonnecting), sum(case comment_when_сonnecting when'bad' then 1 else 0 end) as bad, sum(case comment_when_сonnecting when'good' then 1 else 0 end) as good from data_set.subscriber_information
+select connection_date, count(comment_when_сonnecting),
+sum(case comment_when_сonnecting when'bad' then 1 else 0 end) as bad,
+sum(case comment_when_сonnecting when'good' then 1 else 0 end) as good from data_set.subscriber_information
 group by connection_date
 
 
@@ -42,49 +56,37 @@ group by connection_date) si_3 using (connection_date)
 
 2.1 Вывести поля subscriber_information(основная) и period_traffic при помощи левого объединения (LJ). Дублирующих полей не должно быть!!!
 
-Не до конца понял задание. Не понял как можно лефт джойном вывести без дубликатов, если в таблице period_traffic дублируются id_abon . Применил при соединении агрегацию в таблице period_traffic
+select * from data_set.subscriber_information
+left join  period_traffic using(id_abon)
 
-select si.*, si_1.sum_traffic_gb, si_1.day_concat from data_set.subscriber_information si
-left join (select id_abon, sum(traffic_gb) as sum_traffic_gb, GROUP_CONCAT( DISTINCT day ORDER BY day  SEPARATOR'|') as day_concat from data_set.period_traffic
-group by id_abon) si_1 using (id_abon)
-
-
+select si.*, pt.day, pt.traffic_gb from data_set.subscriber_information si
+left join  period_traffic pt
+on pt.id_abon=si.id_abon
 
 2.2 Сделать LJ subscriber_information(основная) и period_traffic.
 	Вывести поля day и макимумы по полю  traffic_gb (получим самый большой трафик за дату).
     В фильтрах интересуют информация по абонентам, которые были подключены от '2020-01-13'(вклюительно).
 
-в1  тут как-то сложно сделал
-
-select dmt.day, sum(dmt.max_traffic_gb)from (select id_abon, connection_date, pt.day, pt.max_traffic_gb from data_set.subscriber_information si
-left join (select id_abon, day, max(traffic_gb) as max_traffic_gb from data_set.period_traffic
-group by id_abon, day) as pt using (id_abon)
-where si.connection_date >= '2020-01-13') as dmt
-group by dmt.day
-
-в2 а тут просто( в таблице с трафиком на одну дату у одного абонента одно значение)
-
-select day, sum(traffic_gb) from data_set.subscriber_information si
-left join  data_set.period_traffic using (id_abon)
-where si.connection_date >= '2020-01-13'
+select day,max(traffic_gb)  from data_set.subscriber_information
+left join  period_traffic using(id_abon)
+where connection_date >= '2020-01-13'
 group by day
 
 
 
 2.3 Вывести дату трафика и сам трафик абонентов, которые были подключены позже '2020-01-13'(вклюительно) и были довольны при подключении.
 
-select day, sum(traffic_gb) from data_set.subscriber_information
+select day, traffic_gb from data_set.subscriber_information
 left join period_traffic using(id_abon)
 where comment_when_сonnecting ='good' and connection_date >= '2020-01-13'
-group by day
 
 
-2.4 !!! Вывести кол-во id_abon, которые были не довольны при подключении, а так-же были подключены менее 2020-01-15, а только чей трафик
-	в промежутке с 2020-01-01(вклюительно) по 2020-01-15(вклюительно) был не более 100 GB. !!!
+2.4 !!! Вывести кол-во id_abon, которые были не довольны при подключении, а так-же были подключены менее
+                     2020-02-15, а только чей трафик
+	в промежутке с 2020-02-01(вклюительно) по 2020-02-15(вклюительно) был не более 100 GB. !!!
 
 
-
-Я опять до конца не понял задание, то ли суммарный трафик абонентов, то ли за день и сделал и так и так
+ опять до конца не понял задание, то ли суммарный трафик абонентов, то ли за день и сделал и так и так
 
 
 
