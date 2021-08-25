@@ -1,0 +1,129 @@
+   1.  Сджойнить (LJ) таблицы (abon_cities,abon_podkl,abon_sales,abon_spis,house_info,
+       period_traffic,states,subscriber_information), где `subscriber_information` будет основная и вывести уникальные поля.
+
+select si.*, pt.day, pt.traffic_gb, abs.city,st.state, hi.entrances, hi.id_house, hi.floors, hi.switches,
+ap.id_podkl, ap.date_podkl, asp.tarif_before,asp.tarif_after,asp.spis_before,asp.spis_after,asl.sale,asl.date_start_sale,asl.date_end_sale
+from subscriber_information si
+left join period_traffic pt using(id_abon)
+left join abon_cities abs on abs.c_abon=si.id_abon
+left join states st on st.s_city=abs.city
+left join house_info hi using(id_abon)
+left join abon_podkl ap using(id_abon)
+left join abon_spis asp using(id_podkl)
+left join abon_sales asl using(id_podkl)
+
+
+2.  Вывести subscriber_information.id_abon и states.state.
+   Условием вывода будут те, чей abon_podkl.date_podkl равен январю 2020 года.
+
+select si.id_abon, st.state from subscriber_information si
+left join abon_podkl ap  using (id_abon)
+left join abon_cities ac on ac.c_abon=si.id_abon
+left join  states st on st.s_city=ac.city
+where month(date_podkl)='01' and year(date_podkl)='2020'
+
+
+3.  Сделать 1 пункт и к нему привязать условие из 2 пункта.
+
+select si.*, pt.day, pt.traffic_gb, abs.city,st.state, hi.entrances, hi.id_house, hi.floors, hi.switches,
+ap.id_podkl, ap.date_podkl, asp.tarif_before,asp.tarif_after,asp.spis_before,asp.spis_after,asl.sale,asl.date_start_sale,asl.date_end_sale
+from subscriber_information si
+left join period_traffic pt using(id_abon)
+left join abon_cities abs on abs.c_abon=si.id_abon
+left join states st on st.s_city=abs.city
+left join house_info hi using(id_abon)
+left join abon_podkl ap using(id_abon)
+left join abon_spis asp using(id_podkl)
+left join abon_sales asl using(id_podkl)
+where month(date_podkl)='01' and year(date_podkl)='2020'
+
+
+
+4.  Вывести house_info.id_house, states.state, abon_sales.sale.
+    Условием вывода будут те, чей abon_spis.tarif_after равен 'Все включено v.3.5'
+
+select house_info.id_house, st.state, abon_sales.sale, abon_spis.tarif_after from subscriber_information si
+left join abon_podkl using (id_abon)
+left join abon_sales using (id_podkl)
+left join house_info using (id_abon)
+left join abon_cities ac on ac.c_abon=si.id_abon
+left join states st on st.s_city=ac.city
+left join abon_spis using (id_podkl)
+where tarif_after = 'Все включено v.3.5'
+
+
+5.  Вывести subscriber_information.id_abon, subscriber_information.number_of_internet_devices, subscriber_information.number_of_tv_devices
+    Условием вывода будут те,кто был от 01.02.20(вкл) поля abon_sales.date_start_sale и до 2020-04-01(вкл) поля abon_sales.date_end_sale
+    Сделать двойную сортировку по возрастанию,сначала abon_sales.date_start_sale потом abon_sales.date_end_sale.
+
+select subscriber_information.id_abon, subscriber_information.number_of_internet_devices,
+subscriber_information.number_of_tv_devices,asl.date_start_sale,asl.date_end_sale
+from subscriber_information
+left join abon_podkl using (id_abon)
+left join abon_sales asl using (id_podkl)
+where 1=1
+and asl.date_start_sale >= '01.02.20'
+and  asl.date_end_sale <= '2020-04-01'
+order by asl.date_start_sale, asl.date_end_sale
+
+
+6.  Вывести subscriber_information.connection_date, subscriber_information.number_of_internet_devices,
+    subscriber_information.number_of_tv_devices,а так-же previous_number_internet и previous_number_tv.
+    Поле previous_number_internet - это предыдущее значение поля subscriber_information.number_of_internet_devices
+    Поле previous_number_tv - это предыдущее значение поля subscriber_information.number_of_tv_devices
+    Партиционирование оконной функции этих полей происходит по subscriber_information.connection_date,
+    а оконная сортировка по subscriber_information.id_abon.
+
+    select connection_date, number_of_internet_devices,
+    number_of_tv_devices, lag(number_of_internet_devices,1,'xx') over (partition by connection_date order by id_abon) as previous_number_internet, lag(number_of_tv_devices) over (partition by connection_date order by id_abon) as previous_number_tv
+    from subscriber_information
+
+7.  !!!К таблице 6 пункта добавить поля abon_cities.city,abon_cities.state, а так-же count_abon_city и count_abon_state
+    Поле count_abon_city - это кол-во пользователей проживающий в этом городе.
+    Поле count_abon_state - это кол-во пользователей проживающий в этом штате.!!!
+
+select connection_date, number_of_internet_devices,
+    number_of_tv_devices, ac.city, st.state, si.id_abon,
+    lag(number_of_internet_devices,1,'xx') over (partition by connection_date order by id_abon) as previous_number_internet,
+    lag(number_of_tv_devices) over (partition by connection_date order by id_abon) as previous_number_tv,
+    ctc.count_abon_city, stc.count_abon_state
+    from subscriber_information si
+    left join abon_cities ac on ac.c_abon=si.id_abon
+    left join states st on st.s_city=ac.city
+    left join (select ac1.city, count(id_abon) as count_abon_city /*тут в подзапросе подсчитывается количество абонентов в городе*/
+    from subscriber_information si1
+    left join abon_cities ac1 on ac1.c_abon=si1.id_abon
+    group by city) ctc on ctc.city=ac.city
+    left join (select st2.state, count(id_abon) as count_abon_state  /*тут в подзапросе подсчитывается количество абонентов в штате*/
+    from subscriber_information si2
+    left join abon_cities ac2 on ac2.c_abon=si2.id_abon
+    left join states st2 on st2.s_city=ac2.city
+    group by state) stc on stc.state=st.state
+
+
+
+8.  !!!К таблице 7 пункта добавить поле total_traffic_id_abon.
+    Поле total_traffic_id_abon - это сумарный трафик за все время, который высчитывется по полю period_traffic.traffic_gb!!!
+
+    select connection_date, number_of_internet_devices,
+    number_of_tv_devices, ac.city, st.state, si.id_abon,
+    lag(number_of_internet_devices,1,'xx') over (partition by connection_date order by id_abon) as previous_number_internet,
+    lag(number_of_tv_devices) over (partition by connection_date order by id_abon) as previous_number_tv,
+    ctc.count_abon_city, stc.count_abon_state,
+    total_traffic_id_abon
+    from subscriber_information si
+    left join abon_cities ac on ac.c_abon=si.id_abon
+    left join states st on st.s_city=ac.city
+    left join (select ac1.city, count(id_abon) as count_abon_city /*тут в подзапросе подсчитывается количество абонентов в городе*/
+    from subscriber_information si1
+    left join abon_cities ac1 on ac1.c_abon=si1.id_abon
+    group by city) ctc on ctc.city=ac.city
+    left join (select st2.state, count(id_abon) as count_abon_state  /*тут в подзапросе подсчитывается количество абонентов в штате*/
+    from subscriber_information si2
+    left join abon_cities ac2 on ac2.c_abon=si2.id_abon
+    left join states st2 on st2.s_city=ac2.city
+    group by state) stc on stc.state=st.state
+    left join (select id_abon, sum(traffic_gb) as total_traffic_id_abon /*тут в подзапросе подсчитывается суммарный трафик абонентов*/
+	from subscriber_information
+	left join period_traffic using (id_abon)
+    group by id_abon) tta on tta.id_abon=si.id_abon
