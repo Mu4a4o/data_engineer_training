@@ -1,16 +1,16 @@
 1.  Сджойнить (LJ) таблицы (abon_cities,abon_podkl,abon_sales,abon_spis,house_info,
-    period_traffic,states,subscriber_information), где `subscriber_information` будет основная и вывести уникальные поля.
+    period_traffic,states), где `subscriber_information` будет основная и вывести уникальные поля.
 
 2.  Вывести subscriber_information.id_abon и states.state.
-    Условием вывода будут те, чей abon_podkl.date_podkl равен январю 2020 года.
+    Условие вывода -   abon_podkl.date_podkl равен январю 2020 года.
 
 3.  Сделать 1 пункт и к нему привязать условие из 2 пункта.
 
 4.  Вывести house_info.id_house, states.state, abon_sales.sale.
-    Условием вывода будут те, чей abon_spis.tarif_after равен 'Все включено v.3.5'
+    Условие вывода -  abon_spis.tarif_after равен 'Все включено v.3.5'
 
 5.  Вывести subscriber_information.id_abon, subscriber_information.number_of_internet_devices, subscriber_information.number_of_tv_devices
-    Условием вывода будут те,кто был от 01.02.20(вкл) поля abon_sales.date_start_sale и до 2020-04-01(вкл) поля abon_sales.date_end_sale
+    Условие вывода - abon_sales.date_start_sale от 01.02.20(вкл)  и abon_sales.date_end_sale до 2020-04-01(вкл)
     Сделать двойную сортировку по возрастанию,сначала abon_sales.date_start_sale потом abon_sales.date_end_sale.
 
 6.  Вывести subscriber_information.connection_date, subscriber_information.number_of_internet_devices,
