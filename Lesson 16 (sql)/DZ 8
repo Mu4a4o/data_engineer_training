@@ -1,0 +1,91 @@
+1. SELECT t1.*, t2.city, t3.id_podkl, t3.date_podkl, t4.tarif_before, t4.tarif_after,
+t4.spis_before,
+t4.spis_after, t5.sale, t5.date_start_sale, t5.date_end_sale
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join abon_podkl t3 on t1.id_abon = t3.id_abon
+left join abon_spis t4 on t3.id_podkl = t4.id_podkl
+left join abon_sales t5 on t3.id_podkl = t5.id_podkl
+
+
+2. SELECT t1.id_abon, t3.state
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join states t3 on t2.city = t3.s_city
+left join abon_podkl t4 on t1.id_abon = t4.id_abon
+where YEAR(t4.date_podkl) = 2020 and MONTH(t4.date_podkl) = 1
+
+
+3.SELECT t1.*, t2.city, t3.id_podkl, t3.date_podkl, t4.tarif_before, t4.tarif_after,
+t4.spis_before,
+t4.spis_after, t5.sale, t5.date_start_sale, t5.date_end_sale
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join abon_podkl t3 on t1.id_abon = t3.id_abon
+left join abon_spis t4 on t3.id_podkl = t4.id_podkl
+left join abon_sales t5 on t3.id_podkl = t5.id_podkl
+where YEAR(t3.date_podkl) = 2020 and MONTH(t3.date_podkl) = 1
+
+
+4. SELECT t2.id_house, t4.state, t7.sale
+FROM subscriber_information t1 left join house_info t2 on t1.id_abon = t2.id_abon
+left join abon_cities t3 on t1.id_abon = t3.id_abon
+left join states t4 on t3.city = t4.s_city
+left join abon_podkl t5 on t1.id_abon = t5.id_abon
+left join abon_spis t6 on t5.id_podkl = t6.id_podkl
+left join abon_sales t7 on t5.id_podkl =t7.id_podkl
+where t6.tarif_after = 'Все включено v.3.5'
+
+
+5.SELECT t1.id_abon, t1.number_of_internet_devices, t1.number_of_tv_devices
+FROM subscriber_information t1 left join abon_podkl t2 on t1.id_abon = t2.id_abon
+left join abon_sales t3 on t2.id_podkl = t3.id_podkl
+WHERE t3.date_start_sale >= '01.02.20' and t3.date_end_sale <= '2020-04-01'
+ORDER BY t3.date_start_sale, t3.date_end_sale
+
+
+6. SELECT connection_date, number_of_internet_devices, number_of_tv_devices,
+CASE
+WHEN LAG(number_of_internet_devices,1) OVER(PARTITION BY connection_date ORDER BY id_abon) IS NULL THEN 0
+ELSE LAG(number_of_internet_devices,1) OVER(PARTITION BY connection_date ORDER BY id_abon)
+END as previous_number_internet,
+CASE
+WHEN LAG(number_of_tv_devices,1) OVER(PARTITION BY connection_date ORDER BY id_abon) IS NULL THEN 0
+ELSE LAG(number_of_tv_devices,1) OVER(PARTITION BY connection_date ORDER BY id_abon)
+END as previous_number_tv
+FROM subscriber_information
+
+
+7. SELECT t1.connection_date, t1.number_of_internet_devices, t1.number_of_tv_devices,
+CASE
+WHEN LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_internet,
+CASE
+WHEN LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_tv, t2.city, t3.state,
+COUNT(t1.id_abon) OVER(PARTITION BY t2.city) as count_abon_city,
+COUNT(t1.id_abon) OVER(PARTITION BY t3.state) as count_abon_state
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join states t3 on t2.city = t3.s_city
+
+
+8.
+SELECT t4.id_abon, t4.connection_date, t4.number_of_internet_devices, t4.number_of_tv_devices,
+t4.previous_number_internet, t4.previous_number_tv, t4.city, t4.state, t4.count_abon_city, t4.count_abon_state,
+t5.total_traffic_id_abon
+FROM
+(SELECT t1.id_abon, t1.connection_date, t1.number_of_internet_devices, t1.number_of_tv_devices,
+CASE
+WHEN LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_internet,
+CASE
+WHEN LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_tv, t2.city, t3.state,
+COUNT(t1.id_abon) OVER(PARTITION BY t2.city) as count_abon_city,
+COUNT(t1.id_abon) OVER(PARTITION BY t3.state) as count_abon_state
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join states t3 on t2.city = t3.s_city) t4 left join
+(SELECT id_abon, SUM(traffic_gb) as total_traffic_id_abon
+FROM period_traffic
+GROUP BY id_abon) t5 on t4.id_abon = t5.id_abon
