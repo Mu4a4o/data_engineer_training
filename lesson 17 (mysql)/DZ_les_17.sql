@@ -1,4 +1,26 @@
+subscriber_information.id_abon - PK
+------------------------------------ДЕНИС-----------------------------
+period_traffic.id_abon - PK(составной ключ) / FK(subscriber_information.id_abon)
+period_traffic.day - PK (составной ключ)
+------------------------------------ОЛЯ-------------------------------
+house_info.id_abon - PK / FK(subscriber_information.id_abon)
+------------------------------------МАКС------------------------------
+abon_cities.id_abon - PK / FK(subscriber_information.id_abon)
+----
+states.city PK / FK(abon_cities.city)
+------------------------------------СОФЬЯ-----------------------------
+abon_podkl.id_abon FK(subscriber_information.id_abon)
+abon_podkl.id_podkl PK
+----
+abon_spis.id_podkl PK / FK(abon_podkl.id_podkl)
+----
+abon_sales.id_podkl PK / FK(abon_podkl.id_podkl)
+
+
+
 1. Написать триггер для subscriber_information
+
+
    Параметрами будут before insert
    Задача триггера добавлять текущую дату в поле comment_when_сonnecting при добавлении новых записей
 
