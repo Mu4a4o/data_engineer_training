@@ -19,8 +19,6 @@ abon_sales.id_podkl PK / FK(abon_podkl.id_podkl)
 
 
 1. Написать триггер для subscriber_information
-
-
    Параметрами будут before insert
    Задача триггера добавлять текущую дату в поле comment_when_сonnecting при добавлении новых записей
 
