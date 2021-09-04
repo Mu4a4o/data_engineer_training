@@ -1,0 +1,138 @@
+1.
+CREATE DEFINER = CURRENT_USER TRIGGER `data_set`.`subscriber_information_ZADANIE_1` BEFORE INSERT ON `subscriber_information` FOR EACH ROW
+BEGIN
+SET NEW.`comment_when_сonnecting` = now();
+END
+
+
+2.
+CREATE PROCEDURE `zadanie_2`
+(in id_abon varchar(50) ,
+in first_name varchar(25),
+in last_name varchar(25) ,
+in connection_date date ,
+in trust_payment int ,
+in number_of_internet_devices int ,
+in number_of_tv_devices int ,
+in comment_when_сonnecting varchar(100))
+BEGIN
+INSERT INTO `data_set`.`subscriber_information`
+(`id_abon`,`first_name`,`last_name`,`connection_date`,`trust_payment`,`number_of_internet_devices`,`number_of_tv_devices`,`comment_when_сonnecting`)
+VALUES (id_abon,first_name,last_name,connection_date,trust_payment,number_of_internet_devices,number_of_tv_devices,comment_when_сonnecting);
+END
+
+
+3.
+(Я поняла что нужно написать только для тех таблиц где прямая связь с SI и проверять внутри каждой таблицы но могла неверно растолковать)
+Триггер subscriber_information:
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`subscriber_information_ZADANIE_3` BEFORE INSERT ON `subscriber_information` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM subscriber_information as t1 join (SELECT NEW.id_abon) t2 ON t1.id_abon = t2.id_abon) THEN
+                SET @p = CONCAT('id_abon for ',(SELECT NEW.id_abon),' already available');
+                SIGNAL sqlstate '45000'
+                         SET message_text = @p;
+      END IF;
+END
+
+Триггер period_traffic:
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`period_traffic_ZADANIE_3` BEFORE INSERT ON `period_traffic` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM period_traffic as t1 join (SELECT NEW.id_abon, NEW.day) t2 ON t1.id_abon = t2.id_abon) THEN
+                SET @p = CONCAT('id_abon for ',(SELECT NEW.id_abon),' already available');
+                SIGNAL sqlstate '45000'
+                     SET message_text = @p;
+      END IF;
+END
+
+Триггер house_info:
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`house_info_ZADANIE_3` BEFORE INSERT ON `house_info` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM house_info as t1 join (SELECT NEW.id_abon, NEW.id_house, NEW.entrances, NEW.floors, NEW.switches) t2 ON t1.id_abon = t2.id_abon) THEN
+                SET @p = CONCAT('id_abon for ',(SELECT NEW.id_abon),' already available');
+                SIGNAL sqlstate '45000'
+                         SET message_text = @p;
+      END IF;
+END
+
+Триггер abon_cities:
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`abon_cities_ZADANIE_3` BEFORE INSERT ON `abon_cities` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM abon_cities as t1 join (SELECT NEW.id_abon, NEW.city) t2 ON t1.id_abon = t2.id_abon) THEN
+                SET @p = CONCAT('id_abon for ',(SELECT NEW.id_abon),' already available');
+                SIGNAL sqlstate '45000'
+                         SET message_text = @p;
+      END IF;
+END
+
+Триггер abon_podkl:
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`abon_podkl_ZADANIE_3` BEFORE INSERT ON `abon_podkl` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM abon_podkl as t1 join (SELECT NEW.id_podkl) t2 ON t1.id_podkl = t2.id_podkl) THEN
+                SET @p = CONCAT('id_abon for ',(SELECT NEW.id_abon),' already available');
+                SIGNAL sqlstate '45000'
+                         SET message_text = @p;
+      END IF;
+END
+
+
+4.
+CREATE TABLE ZADANIE_4 as
+(SELECT t4.id_abon as id_abon, t4.connection_date as connection_date, t4.number_of_internet_devices as umber_of_internet_devices,
+t4.number_of_tv_devices as number_of_tv_devices, t4.previous_number_internet as previous_number_internet,
+t4.previous_number_tv as previous_number_tv, t4.city as city, t4.state as state, t4.count_abon_city as count_abon_city,
+t4.count_abon_state as count_abon_state, t5.total_traffic_id_abon as total_traffic_id_abon
+FROM
+(SELECT t1.id_abon, t1.connection_date, t1.number_of_internet_devices, t1.number_of_tv_devices,
+CASE
+WHEN LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_internet,
+CASE
+WHEN LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_tv, t2.city, t3.state,
+COUNT(t1.id_abon) OVER(PARTITION BY t2.city) as count_abon_city,
+COUNT(t1.id_abon) OVER(PARTITION BY t3.state) as count_abon_state
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join states t3 on t2.city = t3.s_city) t4 left join
+(SELECT id_abon, SUM(traffic_gb) as total_traffic_id_abon
+FROM period_traffic
+GROUP BY id_abon) t5 on t4.id_abon = t5.id_abon)
+
+
+5.
+CREATE DEFINER= CURRENT_USER TRIGGER `data_set`.`ZADANIE_4_ZADANIE_5` BEFORE INSERT ON `ZADANIE_4` FOR EACH ROW BEGIN
+    IF  EXISTS (SELECT * FROM ZADANIE_4 as t1 join (SELECT NEW.id_abon, NEW.connection_date, NEW.umber_of_internet_devices,
+                NEW.number_of_tv_devices, NEW.previous_number_internet, NEW.previous_number_tv, NEW.city, NEW.state,
+                NEW.count_abon_city, NEW.count_abon_state, NEW.total_traffic_id_abon) t2 ON t1.id_abon = t2.id_abon and t1.connection_date=t2.connection_date
+                and t1.umber_of_internet_devices=t2.umber_of_internet_devices and t1.number_of_tv_devices = t2.number_of_tv_devices and
+                t1.previous_number_internet = t2.previous_number_internet and t1.city = t2.city and t1.state = t2.state
+                and t1.count_abon_city = t2.count_abon_city and t1.count_abon_state = t2.count_abon_state
+                and t1.total_traffic_id_abon = t2.total_traffic_id_abon) THEN
+                SIGNAL sqlstate '45000'
+                         SET message_text = 'row already available';
+      END IF;
+END
+
+
+6.
+CREATE  PROCEDURE `ZADANIE_6`()
+BEGIN
+incert ZADANIE_4
+SELECT t4.id_abon as id_abon, t4.connection_date as connection_date, t4.number_of_internet_devices as umber_of_internet_devices,
+t4.number_of_tv_devices as number_of_tv_devices, t4.previous_number_internet as previous_number_internet,
+t4.previous_number_tv as previous_number_tv, t4.city as city, t4.state as state, t4.count_abon_city as count_abon_city,
+t4.count_abon_state as count_abon_state, t5.total_traffic_id_abon as total_traffic_id_abon
+FROM
+(SELECT t1.id_abon, t1.connection_date, t1.number_of_internet_devices, t1.number_of_tv_devices,
+CASE
+WHEN LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_internet_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_internet,
+CASE
+WHEN LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon) IS NULL THEN 0
+ELSE LAG(t1.number_of_tv_devices,1) OVER(PARTITION BY t1.connection_date ORDER BY t1.id_abon)
+END as previous_number_tv, t2.city, t3.state,
+COUNT(t1.id_abon) OVER(PARTITION BY t2.city) as count_abon_city,
+COUNT(t1.id_abon) OVER(PARTITION BY t3.state) as count_abon_state
+FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
+left join states t3 on t2.city = t3.s_city) t4 left join
+(SELECT id_abon, SUM(traffic_gb) as total_traffic_id_abon
+FROM period_traffic
+GROUP BY id_abon) t5 on t4.id_abon = t5.id_abon;
+END
