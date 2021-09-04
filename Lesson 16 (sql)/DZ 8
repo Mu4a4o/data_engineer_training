@@ -1,10 +1,12 @@
 1. SELECT t1.*, t2.city, t3.id_podkl, t3.date_podkl, t4.tarif_before, t4.tarif_after,
-t4.spis_before,
-t4.spis_after, t5.sale, t5.date_start_sale, t5.date_end_sale
+t4.spis_before, t4.spis_after, t5.sale, t5.date_start_sale, t5.date_end_sale
 FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
 left join abon_podkl t3 on t1.id_abon = t3.id_abon
 left join abon_spis t4 on t3.id_podkl = t4.id_podkl
 left join abon_sales t5 on t3.id_podkl = t5.id_podkl
+left join states t6 on t2.city = t6.s_city
+left join house_info t7 on t1.id_abon = t7.id_abon
+left join period_traffic t8 on t1.id_abon = t8.id_abon
 
 
 2. SELECT t1.id_abon, t3.state
@@ -14,13 +16,15 @@ left join abon_podkl t4 on t1.id_abon = t4.id_abon
 where YEAR(t4.date_podkl) = 2020 and MONTH(t4.date_podkl) = 1
 
 
-3.SELECT t1.*, t2.city, t3.id_podkl, t3.date_podkl, t4.tarif_before, t4.tarif_after,
-t4.spis_before,
+3.SELECT t1.*, t2.city, t3.id_podkl, t3.date_podkl, t4.tarif_before, t4.tarif_after,t4.spis_before,
 t4.spis_after, t5.sale, t5.date_start_sale, t5.date_end_sale
 FROM subscriber_information t1 left join abon_cities t2 on t1.id_abon = t2.id_abon
 left join abon_podkl t3 on t1.id_abon = t3.id_abon
 left join abon_spis t4 on t3.id_podkl = t4.id_podkl
 left join abon_sales t5 on t3.id_podkl = t5.id_podkl
+left join states t6 on t2.city = t6.s_city
+left join house_info t7 on t1.id_abon = t7.id_abon
+left join period_traffic t8 on t1.id_abon = t8.id_abon
 where YEAR(t3.date_podkl) = 2020 and MONTH(t3.date_podkl) = 1
 
 
@@ -37,7 +41,7 @@ where t6.tarif_after = 'Все включено v.3.5'
 5.SELECT t1.id_abon, t1.number_of_internet_devices, t1.number_of_tv_devices
 FROM subscriber_information t1 left join abon_podkl t2 on t1.id_abon = t2.id_abon
 left join abon_sales t3 on t2.id_podkl = t3.id_podkl
-WHERE t3.date_start_sale >= '01.02.20' and t3.date_end_sale <= '2020-04-01'
+WHERE t3.date_start_sale >= '2020-02-01' and t3.date_end_sale <= '2020-04-01'
 ORDER BY t3.date_start_sale, t3.date_end_sale
 
 
