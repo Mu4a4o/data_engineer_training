@@ -1,5 +1,6 @@
 # pip install pandas
 # pip install mysql-connector-python
+# pip install openpyxl
 ##
 import pandas as pd
 import mysql.connector
@@ -22,7 +23,8 @@ get_sql = f'select * from {postgreSQLTable}'
 df = pd.read_sql(get_sql, SQLConnection)
 print(df)
 
-SQLConnection .close()
+
+SQLConnection.close()
 
 ## просмотр dataframe
 # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.head.html
@@ -42,6 +44,12 @@ df.columns = name_columns
 print('нейминг полей')
 print(df.head(n=5))
 
+## сохранение в файл CSV
+df.to_csv('/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 18 (pandas)/subscriber_information.txt',sep=';',encoding='utf-8',index=None)
+
+## сохранение в файл EXCEL
+df.to_excel('/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 18 (pandas)/subscriber_information.xlsx')
+
 ## статистические методы
 '''
 .max() Максимум
@@ -54,6 +62,7 @@ print(df.head(n=5))
 ## Вызов методов
 print(df['колл_инт_устр'].max())
 print(df['колл_инт_устр'].min())
+print(df['доверительный_платеж'].nunique())
 
 ## Метод describe показывает основные статистические характеристики данных по каждому числовому признаку (типы int и float)
 # : число непропущенных значений, среднее, стандартное отклонение, мин значеиине, 0.25 0.50 0.75 квартили, макс значение
@@ -91,59 +100,44 @@ print('оставляем нужные поля в другом df')
 df_only_col= df[['ид_абонента','дата_подключения']]
 print(df_only_col.head(n=5))
 
+## группирование таблицы
+print('группирование по кол-ву относительно "дата_подключения" ')
+print(df.groupby(['дата_подключения']).count())
 
-# from sqlalchemy import create_engine
-# # выгрузка в файл или postgres
-# # сохранение в файл
-# df_only.to_csv('CSV/tss_only.txt',sep=';',encoding='utf-8',index=None)
+## группирование по кол-ву отнисительно "дата_подключения" и сортировка таблицы по "доверительный_платеж"
+print('группирование по кол-ву отнисительно "дата_подключения" и сортировка таблицы по "доверительный_платеж"')
+print(df.groupby(['дата_подключения']).count().sort_values(['доверительный_платеж'],ascending=True))
 
-# # открываем csv .
-# # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html
-# df = pd.read_csv('CSV/tss.csv', # путь
-#     sep=',', # разделитель
-#     skiprows=100, # пропустить строки в начале
-#     nrows= 10000, # загрузить строки
-#     header=None, # названия полей отстутсвует
-#     usecols=[i for i in range(1,25)]) # выбрать нужные поля по индексу
+## группирование по кол-ву отнисительно "дата_подключения" и сортировка таблицы по "доверительный_платеж".
+# Оставляем только два поля!!!
+print('группирование по кол-ву отнисительно "дата_подключения" и сортировка таблицы по "доверительный_платеж"')
+print(df.groupby(['дата_подключения'])['доверительный_платеж'].nunique().sort_values(ascending=True))
 
-#
+## сводные таблицы
+'''
+isin фильтрация DF
+values мы передаем ту колонку, по которой нам нужно строить сводные данные, применяя агрегирующую функцию кол-во.
+index передадим ту колонку, данные которой будут представлены строками сводной таблицы.
+columns передаем колонку, значения которой будут в столбцах.
+aggfunc передаем агрегирующую функцию.
+margins итоговые значения.
+fill_value = меняем NaN на 0
+'''
+print(df.head(5))
+pivot = df.loc[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
+index=['коммент_при_подкл'],
+columns=['колл_тв_устр'],
+aggfunc='count',
+margins=True)
+print(pivot)
 
-
-
-# # группирование таблицы
-# # группирование  по кол-ву отнисительно филиала географии контакта
-# print('группирование по кол-ву отнисительно филиала географии контакта')
-# display(df_new.groupby(['филиал географии контакта']).count())
-# # группирование по кол-ву отнисительно филиала географии контакта и сортировка таблицы по номеру
-# print('группирование по кол-ву отнисительно филиала географии контакта и сортировка таблицы по номеру')
-# display(df_new.groupby(['филиал географии контакта']).count().sort_values(['номер'],ascending=True).sort_values(['номер заявки/CTN контакта'],ascending=True))
-#
-#
-# # уникальные значения
-# print('уникальные значения')
-# display(df_new.groupby(['филиал географии контакта'])['номер'].nunique().sort_values(ascending=True))
-#
-# # сводные таблицы
-# '''
-# values мы передаем ту колонку, по которой нам нужно строить сводные данные, применяя агрегирующую функцию кол-во.
-# index передадим ту колонку, данные которой будут представлены строками сводной таблицы.
-# columns передаем колонку, значения которой будут в столбцах.
-# aggfunc передаем агрегирующую функцию.
-# margins итоговые значения.
-# '''
-# display(df_new.head(5))
-# pivot = df_new.loc[df_new['филиал географии контакта'].isin(['OMS','KMR','KRS'])].pivot_table(values=['номер'],
-# index=['статус'],
-# columns=['филиал географии контакта'],
-# aggfunc='count',
-# margins=True)
-# display(pivot)
-#
-# #fill_value заменить NaN на 0
-# pivot = df_new.loc[df_new['филиал географии контакта'].isin(['OMS','KMR','KRS'])].pivot_table(values=['номер'],
-# index=['статус'],
-# columns=['филиал географии контакта'],
-# aggfunc='count',
-# margins=True,
-# fill_value=0)
-# display(pivot)
+## !!! NaN не будут учитываться в подсчете (см. Index) Нужно менять NaN на значения
+# inplace применяем изменения к существующему df
+df["коммент_при_подкл"].fillna("no_comment", inplace = True)
+pivot = df.loc[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
+index=['коммент_при_подкл'],
+columns=['колл_тв_устр'],
+aggfunc='count',
+margins=True,
+fill_value=0)
+print(pivot)
