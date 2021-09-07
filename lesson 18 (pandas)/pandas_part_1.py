@@ -5,7 +5,7 @@
 import pandas as pd
 import mysql.connector
 
-pd.set_option('display.max_columns', None)
+#pd.set_option('display.max_columns', None)
 
 bd = 'data_set'
 uspost = 'den'
@@ -29,7 +29,7 @@ SQLConnection.close()
 ## просмотр dataframe
 # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.head.html
 print(type(df))
-print(df.head(n=5))
+print(df.head(n=10))
 ## колличество полей
 print('колличество строк')
 print(df.shape[0])
@@ -48,7 +48,7 @@ print(df.head(n=5))
 df.to_csv('/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 18 (pandas)/subscriber_information.txt',sep=';',encoding='utf-8',index=None)
 
 ## сохранение в файл EXCEL
-df.to_excel('/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 18 (pandas)/subscriber_information.xlsx')
+df.to_excel('/Users/dgribanov/PycharmProjects/data_engineer_training/lesson 18 (pandas)/subscriber_information.xlsx',index=None)
 
 ## статистические методы
 '''
@@ -73,9 +73,9 @@ print(df.describe(include = ['object']))
 
 ## меняем на тип дата
 print('меняем на тип дата')
-df['дата_подключения'] =  pd.to_datetime(df['дата_подключения'], format='%Y-%m-%d')
+df['дата_подключения'] =  pd.to_datetime(df['дата_подключения'], format='%Y-%m-%d ')
 print(df.dtypes)
-## форматы времени %H:%M:%S
+# форматы времени %H:%M:%S
 
 
 ## фильтрация
@@ -84,7 +84,7 @@ print(df[df['коммент_при_подкл']=='good'].head(n=5))
 
 ## множественная фильтрация
 print('множественная фильтрация')
-print(df[(df['коммент_при_подкл'] =='good')&(df['колл_инт_устр']== 2)])
+print(df[(df['коммент_при_подкл'] =='good')&(df['колл_инт_устр']== 2)].head(n=5))
 
 ## фильтр с статистические методом
 print(df[(df['коммент_при_подкл'] =='good')&(df['колл_тв_устр']==df['колл_тв_устр'].max())])
@@ -124,7 +124,7 @@ margins итоговые значения.
 fill_value = меняем NaN на 0
 '''
 print(df.head(5))
-pivot = df.loc[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
+pivot = df[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
 index=['коммент_при_подкл'],
 columns=['колл_тв_устр'],
 aggfunc='count',
@@ -134,10 +134,13 @@ print(pivot)
 ## !!! NaN не будут учитываться в подсчете (см. Index) Нужно менять NaN на значения
 # inplace применяем изменения к существующему df
 df["коммент_при_подкл"].fillna("no_comment", inplace = True)
-pivot = df.loc[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
+pivot = df[df['дата_подключения'].isin(['2020-01-09','2020-01-11','2020-01-01'])].pivot_table(values=['дата_подключения'],
 index=['коммент_при_подкл'],
 columns=['колл_тв_устр'],
 aggfunc='count',
 margins=True,
 fill_value=0)
 print(pivot)
+
+##
+print(df_only_col)
