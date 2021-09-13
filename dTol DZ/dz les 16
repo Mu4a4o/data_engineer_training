@@ -127,3 +127,29 @@ select connection_date, number_of_internet_devices,
 	from subscriber_information
 	left join period_traffic using (id_abon)
     group by id_abon) tta on tta.id_abon=si.id_abon
+    
+    
+    
+Все таблицы с id_abon  
+select si.id_abon, connection_date, number_of_internet_devices,
+    number_of_tv_devices, ac.city, st.state, 
+    lag(number_of_internet_devices,1,'xx') over (partition by connection_date order by id_abon) as previous_number_internet,
+    lag(number_of_tv_devices) over (partition by connection_date order by id_abon) as previous_number_tv,
+    ctc.count_abon_city, stc.count_abon_state,
+    total_traffic_id_abon
+    from subscriber_information si
+    left join abon_cities ac on ac.id_abon=si.id_abon
+    left join states st on st.city=ac.city
+    left join (select ac1.city, count(si1.id_abon) as count_abon_city /*тут в подзапросе подсчитывается количество абонентов в городе*/
+    from subscriber_information si1
+    left join abon_cities ac1 on ac1.id_abon=si1.id_abon
+    group by city) ctc on ctc.city=ac.city
+    left join (select st2.state, count(si2.id_abon) as count_abon_state  /*тут в подзапросе подсчитывается количество абонентов в штате*/
+    from subscriber_information si2
+    left join abon_cities ac2 on ac2.id_abon=si2.id_abon
+    left join states st2 on st2.city=ac2.city
+    group by state) stc on stc.state=st.state
+    left join (select id_abon, sum(traffic_gb) as total_traffic_id_abon /*тут в подзапросе подсчитывается суммарный трафик абонентов*/
+	from subscriber_information
+	left join period_traffic using (id_abon)
+    group by id_abon) tta on tta.id_abon=si.id_abon
