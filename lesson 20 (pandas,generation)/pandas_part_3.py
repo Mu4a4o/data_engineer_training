@@ -28,28 +28,28 @@ host = '127.0.0.1'
 port = 3308
 SQLTable = 'subscriber_information_big'
 
-# for i in range(2):
-#     print(i)
-#     id_abon = uuid.uuid1()
-#     first_name = names.get_first_name()
-#     last_name = names.get_last_name()
-#     connection_date = f"2020-{random.randrange(1, 13)}-{random.randrange(1, 30)}"
-#     trust_payment = random.randrange(0, 2)
-#     number_of_internet_devices = random.randrange(1, 3)
-#     number_of_tv_devices = random.randrange(1, 6)
-#     comment_when_сonnecting = bad_good[random.randrange(0, 2)]
-#     string_add = f"{id_abon};" \
-#                  + f"{first_name};" \
-#                  + f"{last_name};" \
-#                  + f"{connection_date};" \
-#                  + f"{trust_payment};" \
-#                  + f"{number_of_internet_devices};" \
-#                  + f"{number_of_tv_devices};" \
-#                  + f"{comment_when_сonnecting}\n"
-#     # w - перезапись, a - дозапись
-#     # перезаписываем файл по способу 2
-#     with open(path_file, 'a', encoding='utf-8') as file:
-#         file.writelines(string_add)
+for i in range(10000000):
+    print(i)
+    id_abon = uuid.uuid1()
+    first_name = names.get_first_name()
+    last_name = names.get_last_name()
+    connection_date = f"2020-{random.randrange(1, 13)}-{random.randrange(1, 30)}"
+    trust_payment = random.randrange(0, 2)
+    number_of_internet_devices = random.randrange(1, 3)
+    number_of_tv_devices = random.randrange(1, 6)
+    comment_when_сonnecting = bad_good[random.randrange(0, 2)]
+    string_add = f"{id_abon};" \
+                 + f"{first_name};" \
+                 + f"{last_name};" \
+                 + f"{connection_date};" \
+                 + f"{trust_payment};" \
+                 + f"{number_of_internet_devices};" \
+                 + f"{number_of_tv_devices};" \
+                 + f"{comment_when_сonnecting}\n"
+    # w - перезапись, a - дозапись
+    # перезаписываем файл по способу 2
+    with open(path_file, 'a', encoding='utf-8') as file:
+        file.writelines(string_add)
 ## выгужаем из CSV period_traffic
 df_si = pd.read_csv(path_file,  # путь
                     sep=';',  # разделитель
@@ -174,7 +174,7 @@ chunksize = 100000
 # название полей
 name_columns = ['id_abon', 'first_name', 'last_name', 'connection_date', 'trust_payment', 'number_of_internet_devices',
                 'number_of_tv_devices', 'comment_when_сonnecting']
-
+i = 0
 # цикл в режиме партиций . Путь к фалу,кодировка файла по дефолту,сепарация,размер одной партиции,режим перебора,все поля в стринг.
 for df_si in pd.read_csv(path_file,
                       #encoding="windows-1251",
@@ -196,9 +196,10 @@ for df_si in pd.read_csv(path_file,
     df_si.columns = name_columns
     # Форматируем в дату
     df_si['connection_date'] = pd.to_datetime(df_si['connection_date'], format='%Y-%m-%d')
-
+    print(i)
     # добавляем партицию в Mysql
     df_si.to_sql(SQLTable, SQLConnection, if_exists='append',  index=False)
+    i += 1
 
 SQLConnection.close()
 
@@ -244,3 +245,5 @@ with pd.ExcelWriter(path_file_excel, mode='a') as writer:
          #    break
 
                                                                                                                                                                                                                                                                                              
+##
+print('s')
