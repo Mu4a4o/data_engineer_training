@@ -108,3 +108,7 @@ df_si[df_si['id_abon'].str.contains('\d\d\d\d\d\d\D\D-\d', regex= True, na=False
 # '{2}' повторение два раза
 df_si[df_si['id_abon'].str.contains('\W\d\d[a-zA-Z]\d\W', regex= True, na=False)]
 #df_si[df_si['id_abon'].str.contains('\W\d{2}[a-zA-Z]\d\W', regex= True, na=False)]
+
+## Поиск и замена с помощью regex
+df_si['id_abon_3'] = df_si['id_abon'].str.replace('\W', '', regex=True)
+print(df_si)
