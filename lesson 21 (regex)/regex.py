@@ -6,6 +6,7 @@ $ - конец строки
 [ ] - любой из них или диапазоны
 */
 -- https://regex101.com/
+https://dev.mysql.com/doc/refman/8.0/en/regexp.html#operator_regexp
 
 -- Примеры на SQL
 -- Маска это свойства регуляного выражения состоящий из метасимволов и самих символов, которые позволяют обеспечить нужный вывод данных
@@ -88,7 +89,7 @@ print(df_si.info(memory_usage='deep'))
 # В отличии от SQL чувстителен к регистру !!!
 
 ##Пример поиск подстроки состоящих из символов 'W|S' в указаном порядке, где метасимвол '|' обозначает 'или'
-df_si[df_si['first_name'].str.contains('[W|S]', regex= True, na=False)]
+df_si[df_si['first_name'].str.contains('[a|S]', regex= True, na=False)]
 
 ## Пример поиск подстроки состоящих из символов '^Wi' в указаном порядке, где метасимвол '^' (циркуфлекс,крышка) обозначает начало строки
 df_si[df_si['first_name'].str.contains('^Wi', regex= True, na=False)]
@@ -112,3 +113,4 @@ df_si[df_si['id_abon'].str.contains('\W\d\d[a-zA-Z]\d\W', regex= True, na=False)
 ## Поиск и замена с помощью regex
 df_si['id_abon_3'] = df_si['id_abon'].str.replace('\W', '', regex=True)
 print(df_si)
+
