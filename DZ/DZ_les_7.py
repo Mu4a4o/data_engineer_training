@@ -17,7 +17,7 @@ import time
 import  datetime
 from functools import reduce
 
-path_log = 'denis_log.txt'
+path_log = '../lesson 7 (python)/denis_log.txt'
 
 def user_decor(user_func):
     # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
@@ -62,7 +62,7 @@ my_func(1, 2, 3, 4)
 import sys
 import time
 def DZ_decor(DZ_func):
-    file = 'sofia_log.txt'
+    file = '../lesson 7 (python)/sofia_log.txt'
     def the_wrapper_around_the_original_function(*args):
         try:
             sys.stdout = open(file, 'a')

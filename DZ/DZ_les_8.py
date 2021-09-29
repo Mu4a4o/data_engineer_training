@@ -54,4 +54,4 @@ url = {'bitcoin': 'https://api.coincap.io/v2/assets/bitcoin',
        }
 
 join_dict_value = join_dict(dict_url(url['bitcoin']),dict_url(url['random_user']),dict_url(url['nasa_planetary']))
-save_file_json(join_dict_value, 'denis_json.json')
+save_file_json(join_dict_value, '../lesson 8 (python)/denis_json.json')
