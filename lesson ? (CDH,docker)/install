@@ -1,0 +1,9 @@
+docker pull cloudera/quickstart:latest
+docker run --hostname=quickstart.cloudera --privileged=true -t -i --publish-all=true -p 8888 cloudera/quickstart /usr/bin/docker-quickstart
+/usr/lib/hue/build/env/bin/hue createsuperuser
+hdfs dfs -ls
+sudo  service hadoop-hdfs-namenode restart
+sudo  service hadoop-hdfs-namenode status
+sudo  service hadoop-hdfs-datanode restart
+hdfs dfs -mkdir test
+hdfs dfs -ls
