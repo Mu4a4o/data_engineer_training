@@ -47,7 +47,7 @@ string_to_datetime = datetime.datetime.strptime(datetime_to_string, '%Y %m %d %H
 print('преобразовываем из типа строка в datetime', string_to_datetime-datetime.timedelta(days=30))
 
 ## Декораторы
-
+import time
 def func_decoration(user_func):
     # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
     # получая возможность исполнять произвольный код до и после неё.
@@ -60,7 +60,6 @@ def func_decoration(user_func):
 
     # Вернём эту функцию
     return the_wrapper_around_the_original_function
-
 
 @func_decoration
 def user_func_test(*args):
@@ -147,3 +146,12 @@ print("""user_func_factorial(3):
 #print('\nустановление глубины рекурсии (по умолчанию 1000', sys.setrecursionlimit(10000))
 print('\nлимит глубины рекурсии', sys.getrecursionlimit())
 
+
+
+
+pr1 pr2
+1   10.12.2010
+1   10.12.2010
+2
+3
+1   10.10.2010
