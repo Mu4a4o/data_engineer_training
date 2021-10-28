@@ -84,7 +84,7 @@ def decor_def(user_func):
         #print('запоминам текущее время в first_time', first_time)
         a = user_func(*args)
         print('start_end', time.time() - first_time)
-        print(a)
+        print('стало',a)
         sys.stdout.close()
         return a
     return wrapp
@@ -92,12 +92,12 @@ def decor_def(user_func):
     
 @decor_def
 def bubble_def(p_list):
-    print(p_list)
+    print('было', p_list)
     for i in range (len(p_list)-1):
         for j in range(len(p_list)-1-i):
             if p_list[j]>p_list[j+1]:
                 p_list[j],p_list[j+1]=p_list[j+1],p_list[j]    
     return p_list
 
-p_list=[8,3,7,6,5,4,9,2,1]
-bubble_def(p_list)
+rr=[8,3,7,6,5,4,9,2,1]
+bubble_def(rr)
