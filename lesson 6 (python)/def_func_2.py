@@ -147,11 +147,3 @@ print("""user_func_factorial(3):
 print('\nлимит глубины рекурсии', sys.getrecursionlimit())
 
 
-
-
-pr1 pr2
-1   10.12.2010
-1   10.12.2010
-2
-3
-1   10.10.2010
