@@ -68,18 +68,7 @@ def decor_def(user_func):
         first_time = time.time()
         sys.stdout = open(file, 'a')
         a = user_func(*args)
-        print('difference_bu', time.time() - first_time)
-        print(a)
-        sys.stdout.close()
-        return a
-    return fun
-
-def decor_def_choice(user_func):
-    def fun(*args):
-        first_time = time.time()
-        sys.stdout = open(file, 'a')
-        a = user_func(*args)
-        print('difference_ch', time.time() - first_time)
+        print('difference', time.time() - first_time)
         print(a)
         sys.stdout.close()
         return a
@@ -95,7 +84,7 @@ def bubble_def(list_1):
                     list_1[i][k], list_1[i][k+1] = list_1[i][k+1], list_1[i][k]
     return list_1
 
-@decor_def_choice
+@decor_def
 def choice_def(list_1):
     print('choice', list_1)
     for i in range(len(list_1)):
