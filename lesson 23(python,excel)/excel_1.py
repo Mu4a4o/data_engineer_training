@@ -1,4 +1,5 @@
 ####
+# pip install pypiwin32
 import win32com.client
 
 # создаем объект для работы с excel
@@ -6,13 +7,14 @@ xlapp = win32com.client.DispatchEx('Excel.Application')
 # открываем файл
 path = 'C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/EXCEL/test.xlsx'
 wb = xlapp.Workbooks.Open(path)
-
 # открываем нужную страницу
 wb.Worksheets('data_1')
 # скрываем выпадающие сообщения
 xlapp.DisplayAlerts = False
 # обновляем всю книгу
 wb.RefreshAll()
+# пересчет формул
+xlapp.CalculateFull()
 # сообщаем ,что нужно дождаться выполнения обновления
 xlapp.CalculateUntilAsyncQueriesDone()
 # сохраняем файл
@@ -49,8 +51,6 @@ while True:
         wb.Worksheets('data_1')
         # обновляем всю книгу
         wb.RefreshAll()
-        # сообщаем ,что нужно дождаться выполнения обновления
-        xlapp.CalculateUntilAsyncQueriesDone()
         # сохраняем файл
         wb.Save()
         # говорим что нужно выходить
@@ -125,7 +125,7 @@ try:
             # открываем нужную страницу и называем её ws
             ws = wb.Worksheets('data_1')
 
-            # получение знаячения ячейки
+            #получение знаячения ячейки
             print(ws.Range("A1").Value)
 
             # получение кол-ва строк
@@ -139,8 +139,8 @@ try:
                     print(i)
             print('кол-ва строк', j)
 
-            # копируем в ней все из столбца E:E в F:F
-            ws.Range("A1:E10").Copy(ws.Range("F:F"))
+            # копируем в ней все из столбца A1:E10 в K14
+            ws.Range("A1:E10").Copy(ws.Range("K14"))
 
             # сообщаем ,что нужно дождаться выполнения обновления
             xlapp.CalculateUntilAsyncQueriesDone()
@@ -164,7 +164,7 @@ import pandas as pd
 import win32com.client
 
 pd.set_option('display.max_columns', None)
-df = pd.read_csv('C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/CSV/tss.csv', usecols=[i for i in range(1, 25)], nrows=5)
+df = pd.read_csv('C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/CSV/tss.csv')
 print(df)
 
 try:
@@ -188,12 +188,10 @@ try:
 
             # создаем нужную страницу и называем её
             wb.Sheets.Add().Name = "data_2"
-
-            # довавляем значения на страницу
+            # добавляем значения на страницу
             wb.Sheets("data_2").Cells(1, 1).Value = 'номер'
             wb.Sheets("data_2").Cells(1, 2).Value = 'номер заявки/CTN контакта'
             wb.Sheets("data_2").Cells(1, 3).Value = 'формула'
-            # wb.Sheets("data_1").Cells(1,7).Value = 'Test'
 
             # пробегаемся по первым столбцам DF и копируем их на лист data_2
             for index, row in df.iterrows():
@@ -219,59 +217,5 @@ except Exception as ex:
     xlapp.Quit()
     del xlapp
 
-## ОФОРЛМЕНИЕ ЯЧЕЕК
-# https://vremya-ne-zhdet.ru/vba-excel/tsvet-teksta-shrifta-v-yacheyke/
-# https://vremya-ne-zhdet.ru/vba-excel/tsvet-yacheyki-zalivka-fon/
-# https://webdelphi-ru.turbopages.org/webdelphi.ru/s/2009/09/excel-v-delphi-kak-izmenit-vneshnij-vid-yacheek/
-import win32com.client
 
-try:
-    while True:
-        # создаем объект для работы с excel
-        xlapp = win32com.client.DispatchEx('Excel.Application')
-        # сообщаем ,что нужно дождаться выполнения обновления
-        xlapp.CalculateUntilAsyncQueriesDone()
-        # открываем файл
-        path = 'C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/EXCEL/test.xlsx'
-        wb = xlapp.Workbooks.Open(path)
-        # скрываем выпадающие сообщения
-        xlapp.DisplayAlerts = False
-        if wb.ReadOnly:
-            # говорим что нужно выходить
-            xlapp.Quit()
-            # если объект висит в памяти, убиваем процесс
-            del xlapp
-            print('занят')
-        else:
-            # меняем цвет фона
-            wb.Sheets("data_2").Range("A1:C1").Interior.ColorIndex = 1
-            # меняем цвет шрифта
-            wb.Sheets("data_2").Range("A1:C1").Font.ColorIndex = 2
-            # делаеам автоширину для всех полей под текст
-            wb.Sheets("data_2").Columns.AutoFit()
-
-            # делаем внутренюю сетку
-            wb.Sheets("data_2").Range("A1:C6").Borders.LineStyle = True
-            # делаем жирное обрамление (4) по краям (7 - левый край,10 - правый край, 8 - верх, 9 - низ)
-            wb.Sheets("data_2").Range("A1:C6").Borders(7).Weight = 4
-            wb.Sheets("data_2").Range("A1:C6").Borders(8).Weight = 4
-            wb.Sheets("data_2").Range("A1:C6").Borders(9).Weight = 4
-            wb.Sheets("data_2").Range("A1:C6").Borders(10).Weight = 4
-
-            # сообщаем ,что нужно дождаться выполнения обновления
-            xlapp.CalculateUntilAsyncQueriesDone()
-            # сохраняем файл
-            wb.Save()
-            # говорим что нужно выходить
-            xlapp.Quit()
-            # если объект висит в памяти, убиваем процесс
-            del xlapp
-            print('good')
-            break
-
-        time.sleep(5)
-except Exception as ex:
-    print('bad', ex)
-    xlapp.Quit()
-    del xlapp
 

@@ -1,3 +1,61 @@
+## ОФОРЛМЕНИЕ ЯЧЕЕК
+# https://vremya-ne-zhdet.ru/vba-excel/tsvet-teksta-shrifta-v-yacheyke/
+# https://vremya-ne-zhdet.ru/vba-excel/tsvet-yacheyki-zalivka-fon/
+# https://webdelphi-ru.turbopages.org/webdelphi.ru/s/2009/09/excel-v-delphi-kak-izmenit-vneshnij-vid-yacheek/
+import win32com.client
+
+try:
+    while True:
+        # создаем объект для работы с excel
+        xlapp = win32com.client.DispatchEx('Excel.Application')
+        # сообщаем ,что нужно дождаться выполнения обновления
+        xlapp.CalculateUntilAsyncQueriesDone()
+        # открываем файл
+        path = 'C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/EXCEL/test.xlsx'
+        wb = xlapp.Workbooks.Open(path)
+        # скрываем выпадающие сообщения
+        xlapp.DisplayAlerts = False
+        if wb.ReadOnly:
+            # говорим что нужно выходить
+            xlapp.Quit()
+            # если объект висит в памяти, убиваем процесс
+            del xlapp
+            print('занят')
+        else:
+            # меняем цвет фона
+            wb.Sheets("data_2").Range("A1:C1").Interior.ColorIndex = 1
+            # меняем цвет шрифта
+            wb.Sheets("data_2").Range("A1:C1").Font.ColorIndex = 2
+            # делаеам автоширину для всех полей под текст
+            wb.Sheets("data_2").Columns.AutoFit()
+
+            # делаем внутренюю сетку
+            wb.Sheets("data_2").Range("A1:C6").Borders.LineStyle = True
+            # делаем жирное обрамление (4) по краям (7 - левый край,10 - правый край, 8 - верх, 9 - низ)
+            wb.Sheets("data_2").Range("A1:C6").Borders(7).Weight = 4
+            wb.Sheets("data_2").Range("A1:C6").Borders(8).Weight = 4
+            wb.Sheets("data_2").Range("A1:C6").Borders(9).Weight = 4
+            wb.Sheets("data_2").Range("A1:C6").Borders(10).Weight = 4
+
+            # сообщаем ,что нужно дождаться выполнения обновления
+            xlapp.CalculateUntilAsyncQueriesDone()
+            # сохраняем файл
+            wb.Save()
+            # говорим что нужно выходить
+            xlapp.Quit()
+            # если объект висит в памяти, убиваем процесс
+            del xlapp
+            print('good')
+            break
+
+        time.sleep(5)
+except Exception as ex:
+    print('bad', ex)
+    xlapp.Quit()
+    del xlapp
+
+
+
 ## СОЗДАНИЕ ТАБЛИЦЫ И ФИЛЬТРАЦИЯ
 #  xlSrcRange в методе ListObjects.Add, искать в api (пример https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.office.interop.excel.xllistobjectsourcetype?view=excel-pia)
 #  xlNo в методе ListObjects.Add, искать в api (пример https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.office.interop.excel.xlyesnoguess?view=excel-pia#Microsoft_Office_Interop_Excel_XlYesNoGuess_xlNo)
