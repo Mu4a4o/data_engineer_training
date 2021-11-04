@@ -56,4 +56,49 @@ for i in range(len(nums)):
 print(nums)
 print("----%.10f----"%(time.time()-st))
 
+## Быстрая сортировка
+# Затраты времени на сортировку выбором в среднем составляют O(n log n), где n — количество элементов списка.
+import time
+import math
+
+st = time.time()
+
+def rec_sort_alg(nums):
+    if len(nums) <= 2:
+        return nums
+    else:
+        print(nums)
+        opornik = nums[round((len(nums) - 1) / 2)]
+        small_list = []
+        big_list = []
+        for i in nums:
+            if i < opornik:
+                small_list.append(i)
+            else:
+                big_list.append(i)
+
+        small_list = rec_sort_alg(small_list)
+        big_list = rec_sort_alg(big_list)
+        ss = small_list + big_list
+        return ss
+
+
+    # for i in nums:
+    #     if nums
+
+
+nums = [2,4,5,7,10, 4, 7, 8, 5, 6]
+
+print(rec_sort_alg(nums))
+print("----%.10f----"%(time.time()-st))
+
+
+##
+def rec_ss(val):
+    if val == 900:
+       return val
+    else:
+        print(val)
+        return rec_ss(val+1)
+print(rec_ss(1))
 
