@@ -78,7 +78,7 @@ print(df_ptj.dtypes)
 def new_col(value_1,value_2):
     # Если в блоке try нет проблем при выполнении, то возвращает объединеное значение двух полей
     try:
-        return str(value_1)+'_'+str(value_2)
+        return str(value_1)+'lesson 24 (python,excel)'+str(value_2)
     # Если в блоке try были проблемы при выполнении, то мы переходим в блок except и делаем нужную нам логику
     except:
         return np.nan

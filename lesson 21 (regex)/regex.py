@@ -1,6 +1,6 @@
 '''
 % - произвольное кол-во символов
-_ - любой одиночный символ
+lesson 24 (python,excel) - любой одиночный символ
 $ - конец строки
 ^ - начало строки
 [ ] - любой из них или диапазоны
@@ -17,7 +17,7 @@ select distinct first_name from  subscriber_information_big where first_name LIK
 select distinct first_name from  subscriber_information_big where first_name LIKE '%W';
 -- Пример с оператором LIKE, где '%W%' выводит все слова,которые имеют букву W в любом месте
 select distinct first_name from  subscriber_information_big where first_name LIKE '%W%';
--- маска с метасимволом '_' обозначает вывод любого,одного символа
+-- маска с метасимволом 'lesson 24 (python,excel)' обозначает вывод любого,одного символа
 -- Пример с оператором LIKE, где '_W_' выводит все слова,которые имеют букву W окруженная символами слева и справа от себя .W.
 select distinct first_name from  subscriber_information_big where first_name LIKE '_W_';
 -- Пример с оператором LIKE, где '%W_' с двойными метасимволами. Выводит все знаки до W и один после ...W.
