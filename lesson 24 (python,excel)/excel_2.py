@@ -1,3 +1,48 @@
+##ПОЛУЧЕНИЕ НОМЕРА ПОСЛЕДНЕЙ ЯЧЕЙКИ НО БЕЗ УЧЕТА ПРОПУСКОВ!!!
+import win32com.client
+import time
+
+#Тут методы для ws. К примеру CalculateFull()
+# https://docs.microsoft.com/ru-ru/office/vba/api/excel.worksheet
+try:
+    while True:
+        # создаем объект для работы с excel
+        xlapp = win32com.client.DispatchEx('Excel.Application')
+        # сообщаем ,что нужно дождаться выполнения обновления
+        xlapp.CalculateUntilAsyncQueriesDone()
+        # открываем файл
+        path = 'C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/EXCEL/test.xlsx'
+        wb = xlapp.Workbooks.Open(path)
+        # скрываем выпадающие сообщения
+        xlapp.DisplayAlerts = False
+        if wb.ReadOnly:
+            # говорим что нужно выходить
+            xlapp.Quit()
+            # если объект висит в памяти, убиваем процесс
+            del xlapp
+            print('занят')
+        else:
+            # открываем нужную страницу и называем её ws
+            ws = wb.Worksheets('data_1')
+            #получение номера последний строки без цикла
+            print(ws.Cells(ws.Rows.Count, 2).End(-4162).Row)
+            # сообщаем ,что нужно дождаться выполнения обновления
+            xlapp.CalculateUntilAsyncQueriesDone()
+            # сохраняем файл
+            wb.Save()
+            # говорим что нужно выходить
+            xlapp.Quit()
+            # если объект висит в памяти, убиваем процесс
+            del xlapp
+            print('good')
+            break
+
+        time.sleep(5)
+except:
+    xlapp.Quit()
+    del xlapp
+
+
 ## ОФОРЛМЕНИЕ ЯЧЕЕК
 # https://vremya-ne-zhdet.ru/vba-excel/tsvet-teksta-shrifta-v-yacheyke/
 # https://vremya-ne-zhdet.ru/vba-excel/tsvet-yacheyki-zalivka-fon/
