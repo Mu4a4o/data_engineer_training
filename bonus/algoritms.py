@@ -23,15 +23,17 @@ import time
 st = time.time()
 
 spis = [2,4,7,8,5,6]
-flg = True
-while flg:
-    flg = False
-    for i in range(len(spis) - 1):
-        if spis[i] > spis[i+1]:
-            spis[i],spis[i+1] = spis[i+1],spis[i]
-            flg = True
+def bubble_sort_alg(spis):
+    flg = True
+    while flg:
+        flg = False
+        for i in range(len(spis) - 1):
+            if spis[i] > spis[i+1]:
+                spis[i],spis[i+1] = spis[i+1],spis[i]
+                flg = True
+    return spis
 
-print(spis)
+print(bubble_sort_alg(spis))
 print("----%.10f----"%(time.time()-st))
 ## Сортировка выбором
 # Затраты времени на сортировку выбором в среднем составляют O(n²), где n — количество элементов списка.
@@ -41,19 +43,21 @@ st = time.time()
 
 nums = [2,4,7,8,5,6]
 
-# Значение i соответствует кол-ву отсортированных значений
-for i in range(len(nums)):
-    # Исходно считаем наименьшим первый элемент
-    lowest_value_index = i
-    # Этот цикл перебирает несортированные элементы
-    for j in range(i + 1, len(nums)):
-           if nums[j] < nums[lowest_value_index]:
-            lowest_value_index = j
-    # Самый маленький элемент меняем с первым в списке
-    nums[i], nums[lowest_value_index] = nums[lowest_value_index], nums[i]
+def selection_sort_alg(nums):
+    # Значение i соответствует кол-ву отсортированных значений
+    for i in range(len(nums)):
+        # Исходно считаем наименьшим первый элемент
+        lowest_value_index = i
+        # Этот цикл перебирает несортированные элементы
+        for j in range(i + 1, len(nums)):
+               if nums[j] < nums[lowest_value_index]:
+                lowest_value_index = j
+        # Самый маленький элемент меняем с первым в списке
+        nums[i], nums[lowest_value_index] = nums[lowest_value_index], nums[i]
+    return nums
 
 
-print(nums)
+print(selection_sort_alg(nums))
 print("----%.10f----"%(time.time()-st))
 
 ## Быстрая сортировка
@@ -83,20 +87,45 @@ def rec_sort_alg(val):
                 op.append(i)
             else :
                 bg.append(i)
-        print(val)
-        print(sm)
-        print(op)
-        print(bg)
-        if not bg:
+        #print(val,'val')
+        #print(sm,'sm')
+        #print(op,'op')
+        #print(bg,'bg')
+        if not bg and sm:
             return rec_sort_alg(sm)+op
-        if not sm:
+        if not sm and bg:
              return op + rec_sort_alg(bg)
+        if not sm and not bg:
+            return op
         return rec_sort_alg(sm)+op+rec_sort_alg(bg)
 
 
-res = [random.randrange(1, 50, 1) for i in range(2)]
-nums = [1,4,4,5,15,2,4,50,10,4,4]
+res = [random.randrange(1, 50, 1) for i in range(70)]
 print(res)
-
 print(rec_sort_alg(res))
 print("----%.10f----"%(time.time()-st))
+
+
+## comparison algoritm
+res = [random.randrange(1, 5000, 1) for i in range(500)]
+print(res)
+
+st = time.time()
+print(bubble_sort_alg(res))
+print("----%.13f----"%(time.time()-st))
+
+st = time.time()
+print(selection_sort_alg(res))
+print("----%.13f----"%(time.time()-st))
+
+st = time.time()
+print(rec_sort_alg(res))
+print("----%.13f----"%(time.time()-st))
+
+## CHECK
+a = [31, 45, 30, 39, 22, 39, 22, 11, 10, 14, 35, 25, 37, 34, 9, 33, 6, 38, 11, 8, 13, 33, 29, 1, 33, 4, 1, 40, 49, 6, 48, 5, 34, 22, 17, 48, 27, 29, 46, 6, 2, 37, 36, 30, 9, 33, 25, 22, 12, 7, 27, 25, 6, 44, 29, 19, 42, 31, 31, 49, 36, 13, 23, 42, 44, 6, 17, 18, 30, 49]
+a = sorted(a)
+print(a)
+c = [1, 1, 2, 4, 5, 6, 6, 6, 6, 6, 7, 8, 9, 9, 10, 11, 11, 12, 13, 13, 14, 17, 17, 18, 19, 22, 22, 22, 22, 23, 25, 25, 25, 27, 27, 29, 29, 29, 30, 30, 30, 31, 31, 31, 33, 33, 33, 33, 34, 34, 35, 36, 36, 37, 37, 38, 39, 39, 40, 42, 42, 44, 44, 45, 46, 48, 48, 49, 49, 49]
+b = [1, 1, 2, 4, 5, 6, 6, 6, 6, 6, 7, 8, 9, 9, 10, 11, 11, 12, 13, 13, 14, 17, 17, 18, 19, 22, 22, 22, 22, 23, 25, 25, 25, 27, 27, 29, 29, 29, 30, 30, 30, 31, 31, 31, 33, 33, 33, 33, 34, 34, 35, 36, 36, 37, 37, 38, 39, 39, 40, 42, 42, 44, 44, 45, 46, 48, 48, 49, 49, 49]
+print(c == b)
