@@ -59,46 +59,44 @@ print("----%.10f----"%(time.time()-st))
 ## Быстрая сортировка
 # Затраты времени на сортировку выбором в среднем составляют O(n log n), где n — количество элементов списка.
 import time
-import math
+import random
 
 st = time.time()
 
-def rec_sort_alg(nums):
-    if len(nums) <= 2:
-        return nums
+def rec_sort_alg(val):
+    if len(val) == 2:
+        if val[0] > val[1]:
+            return [val[1],val[0]]
+        else:
+            return val
+    elif len(val) == 1:
+        return val
     else:
-        print(nums)
-        opornik = nums[round((len(nums) - 1) / 2)]
-        small_list = []
-        big_list = []
-        for i in nums:
-            if i < opornik:
-                small_list.append(i)
-            else:
-                big_list.append(i)
-
-        small_list = rec_sort_alg(small_list)
-        big_list = rec_sort_alg(big_list)
-        ss = small_list + big_list
-        return ss
-
-
-    # for i in nums:
-    #     if nums
-
-
-nums = [2,4,5,7,10, 4, 7, 8, 5, 6]
-
-print(rec_sort_alg(nums))
-print("----%.10f----"%(time.time()-st))
-
-
-##
-def rec_ss(val):
-    if val == 900:
-       return val
-    else:
+        opr = val[round(len(val)/2)-1]
+        sm = []
+        op = []
+        bg = []
+        for i in val:
+            if i < opr:
+                sm.append(i)
+            elif i == opr:
+                op.append(i)
+            else :
+                bg.append(i)
         print(val)
-        return rec_ss(val+1)
-print(rec_ss(1))
+        print(sm)
+        print(op)
+        print(bg)
+        if not bg:
+            return rec_sort_alg(sm)+op
+        if not sm:
+             return op + rec_sort_alg(bg)
+        return rec_sort_alg(sm)+op+rec_sort_alg(bg)
 
+
+res = [random.randrange(1, 50, 1) for i in range(2)]
+nums = [1,4,4,5,15,2,4,50,10,4,4]
+print(res)
+
+print(rec_sort_alg(res))
+print("----%.10f----"%(time.time()-st))
