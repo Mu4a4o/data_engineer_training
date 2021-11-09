@@ -129,10 +129,11 @@ try:
             range_ws = wb.Sheets("data_2").Range("A1:C6")
             # создаем пользовательскую таблицу
             wb.Sheets("data_2").ListObjects.Add(1, range_ws, 2).Name = "Таблица_1"
+
             # фильтруем интереусующие значения во втром поле
             wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2,Criteria1='nan')
             # сбрасываем фильтр
-            #wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2)
+            wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2)
 
 
 
@@ -179,11 +180,11 @@ try:
         else:
             # удаляем nan
             # цикл по ячекам стобца B
-            for i in wb.Sheets("data_2").Range("B:B"):
-                if str(i) == '' or str(i) == 'None':
+            for i in range(len(wb.Sheets("data_2").Range("B:B"))):
+                if wb.Sheets("data_2").Cells(i+1, 2).Value == '' or str(wb.Sheets("data_2").Cells(i+1, 2).Value) == 'None':
                     break
-                elif str(i) == 'nan':
-                    wb.Sheets("data_2").Cells(index, 2).Value = ''
+                elif str(wb.Sheets("data_2").Cells(i+1, 2).Value) == 'nan':
+                    wb.Sheets("data_2").Cells(i + 1, 2).Value = '0'
 
             # обновляем всю книгу
             xlapp.CalculateFull()
