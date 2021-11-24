@@ -133,10 +133,7 @@ try:
             # фильтруем интереусующие значения во втром поле
             wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2,Criteria1='nan')
             # сбрасываем фильтр
-            wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2)
-
-
-
+            #wb.Sheets("data_2").ListObjects('Таблица_1').Range.AutoFilter(Field=2)
             # сообщаем ,что нужно дождаться выполнения обновления
             xlapp.CalculateUntilAsyncQueriesDone()
             # сохраняем файл
@@ -181,7 +178,7 @@ try:
             # удаляем nan
             # цикл по ячекам стобца B
             for i in range(len(wb.Sheets("data_2").Range("B:B"))):
-                if wb.Sheets("data_2").Cells(i+1, 2).Value == '' or str(wb.Sheets("data_2").Cells(i+1, 2).Value) == 'None':
+                if str(wb.Sheets("data_2").Cells(i+1, 2).Value) == '' or str(wb.Sheets("data_2").Cells(i+1, 2).Value) == 'None':
                     break
                 elif str(wb.Sheets("data_2").Cells(i+1, 2).Value) == 'nan':
                     wb.Sheets("data_2").Cells(i + 1, 2).Value = '0'
@@ -222,8 +219,6 @@ try:
         # открываем файл
         path = 'C:/Users/3com/PycharmProjects/data_engineer_training/lesson 23(python,excel)/EXCEL/test.xlsx'
         wb = xlapp.Workbooks.Open(path)
-        # объект моей книги
-        ws = wb.Worksheets('data_1')
         # скрываем выпадающие сообщения
         xlapp.DisplayAlerts = False
         if wb.ReadOnly:
@@ -249,7 +244,7 @@ try:
 
             # в качестве данных date_test. !!! Когда мы его туда помещаем , название поля меняется (узнаем по 'str(PT.DataFields.Item(1))')
             PT.PivotFields("date_test").Orientation = 4  # xlDataField
-            print(str(PT.DataFields.Item(1)))
+            #print(str(PT.DataFields.Item(1)))
             PT.PivotFields(str(PT.DataFields.Item(1))).Function = -4112  # xlCount
 
             # обновляем всю книгу
