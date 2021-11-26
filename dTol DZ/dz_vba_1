@@ -1,0 +1,14 @@
+Sub dz_vb1_1()
+
+Dim i, j, lrow, lcol As Long
+
+lrow = Cells(Rows.Count, 1).End(xlUp).Row
+lcol = Cells(1, Columns.Count).End(xlToLeft).Column
+
+For j = 2 To lrow
+    For i = 1 To lcol
+    Cells(j, i).Select
+    MsgBox (Cells(j, i))
+    Next i
+Next j
+End Sub
