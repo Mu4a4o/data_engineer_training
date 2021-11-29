@@ -29,20 +29,20 @@ End Sub
 
 
 Sub dz_vb1_2()
-Dim i, j, lrow, lcol As Long
+Dim j, lrow, lcol As Long
 
 
 lrow = Workbooks("vba.xlsm").Worksheets("dz").Cells(Rows.Count, 1).End(xlUp).Row
 lcol = Workbooks("vba.xlsm").Worksheets("dz").Cells(1, Columns.Count).End(xlToLeft).Column
 MsgBox (lrow)
 MsgBox (lcol)
-Workbooks("vba.xlsm").Worksheets("dz").Cells(1, 4).Value = "òåñò"
+Workbooks("vba.xlsm").Worksheets("dz").Cells(1, 4).Value = "тест"
 
 For j = 2 To lrow
-    If Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "îøèáêà" And Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "îøèáêà" Then
+    If Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "ошибка" And Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "ошибка" Then
         Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " error"
         Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4).Font.ColorIndex = 3
-    ElseIf Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "îøèáêà" Or Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "îøèáêà" Then
+    ElseIf Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "ошибка" Or Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "ошибка" Then
         Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " error"
         Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4).Font.ColorIndex = 44
     Else: Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " no error"
