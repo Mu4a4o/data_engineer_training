@@ -104,6 +104,7 @@ print("----%.10f----"%(time.time()-st))
 ## comparison algoritm
 import time
 import random
+import copy
 
 def bubble_sort_alg(spis):
     flg = True
@@ -162,21 +163,37 @@ def quick_sort_alg(val):
 res = [random.randrange(1, 50000, 1) for i in range(5000)]
 print(res[0:10],'\n')
 
+#python_list = res
+python_list = copy.deepcopy(res)
+#print(id(python_list))
+
+#quicksort_list = res
+quicksort_list = copy.deepcopy(res)
+#print(id(quicksort_list))
+
+#selection_list = res
+selection_list = copy.deepcopy(res)
+#print(id(selection_list))
+
+#bubble_list = res
+bubble_list = copy.deepcopy(res)
+#print(id(bubble_list))
+
 st = time.time()
-print(quick_sort_alg(res)[0:10])
+print(sorted(python_list)[0:10])
+print('PythonSort',"----%.13f----"%(time.time()-st),'\n')
+
+st = time.time()
+print(quick_sort_alg(quicksort_list)[0:10])
 print('Quicksort',"----%.13f----"%(time.time()-st),'\n')
 
 st = time.time()
-print(bubble_sort_alg(res)[0:10])
-print('Bubble',"----%.13f----"%(time.time()-st),'\n')
-
-st = time.time()
-print(selection_sort_alg(res)[0:10])
+print(selection_sort_alg(selection_list)[0:10])
 print('Selection',"----%.13f----"%(time.time()-st),'\n')
 
 st = time.time()
-print(sorted(res)[0:10])
-print('PythonSort',"----%.13f----"%(time.time()-st),'\n')
+print(bubble_sort_alg(bubble_list)[0:10])
+print('Bubble',"----%.13f----"%(time.time()-st),'\n')
 
 print('end')
 
