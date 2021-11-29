@@ -1,3 +1,5 @@
+Это то что на уроке было задание сделать
+
 Sub dz_vb1_1()
 
 Dim i, j, lrow, lcol As Long
@@ -10,5 +12,41 @@ For j = 2 To lrow
     Cells(j, i).Select
     MsgBox (Cells(j, i))
     Next i
+Next j
+End Sub
+
+
+
+1. Требуется написать скрипт для vba.xlsm (lesson 25) для листа с именем "dz"
+2. Скрипт должен вывести индексы последней заполненой строки и последнего столбца
+3. После п.п. 2 скрипт должен создать новое поле с названием "тест" в ячейке "D1"
+4. После п.п. 3 написать цикл по таблице с условием:
+    4.1 если в поле "idtest" будет "ошибка" И в поле "text_test" тоже будет "ошибка",
+     то нужно в поле "тест" в этой строке написать индекс строки + "errors" + окрасить цвет текста ячейки в красный (посмотрите номер инекдс цвета в интернете)
+    4.1 и если в поле "idtest" будет "ошибка" ИЛИ в поле "text_test" будет "ошибка",
+     то нужно в поле "тест" в этой строке написать индекс строки + "error" + окрасить цвет текста ячейки в желтый (посмотрите номер инекдс цвета в интернете)
+    4.3 во всех остальных случаях в поле "тест" в этой строке написать индекс строки + "no error" + окрасить цвет текста ячейки в зеленый (посмотрите номер инекдс цвета в интернете)
+
+
+Sub dz_vb1_2()
+Dim i, j, lrow, lcol As Long
+
+
+lrow = Workbooks("vba.xlsm").Worksheets("dz").Cells(Rows.Count, 1).End(xlUp).Row
+lcol = Workbooks("vba.xlsm").Worksheets("dz").Cells(1, Columns.Count).End(xlToLeft).Column
+MsgBox (lrow)
+MsgBox (lcol)
+Workbooks("vba.xlsm").Worksheets("dz").Cells(1, 4).Value = "òåñò"
+
+For j = 2 To lrow
+    If Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "îøèáêà" And Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "îøèáêà" Then
+        Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " error"
+        Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4).Font.ColorIndex = 3
+    ElseIf Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 1) = "îøèáêà" Or Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 2) = "îøèáêà" Then
+        Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " error"
+        Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4).Font.ColorIndex = 44
+    Else: Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4) = j & " no error"
+         Workbooks("vba.xlsm").Worksheets("dz").Cells(j, 4).Font.ColorIndex = 10
+    End If
 Next j
 End Sub
