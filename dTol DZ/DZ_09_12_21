@@ -1,0 +1,65 @@
+Sub dz_vb1_3()
+Dim var_1, var_2, i, j, k, n, s, r, t, lrow As Long
+
+s = 1
+Workbooks("test(график).xlsx").Worksheets("test").Cells(s, 53).Value = 2
+lrow = Workbooks("test(график).xlsx").Worksheets("test").Cells(Rows.Count, 3).End(xlUp).Row
+
+
+ For i = 2 To lrow - 1
+    var_1 = Workbooks("test(график).xlsx").Worksheets("test").Cells(i, 1)
+    var_2 = Workbooks("test(график).xlsx").Worksheets("test").Cells(i + 1, 1)
+    If var_1 <> var_2 Then
+        
+
+        s = s + 1
+
+
+        Workbooks("test(график).xlsx").Worksheets("test").Cells(s, 53).Value = i + 1
+        Workbooks("test(график).xlsx").Worksheets("test").Cells(s - 1, 54).Value = i
+    End If
+ Next i
+ lrow_1 = Workbooks("test(график).xlsx").Worksheets("test").Cells(Rows.Count, 54).End(xlUp).Row + 1
+ Workbooks("test(график).xlsx").Worksheets("test").Cells(lrow_1, 54).Value = lrow
+
+
+Workbooks("test(график).xlsx").Worksheets("test").Cells(1, 10).Value = "difference"
+
+
+
+For r = 1 To lrow_1
+    beg = Workbooks("test(график).xlsx").Worksheets("test").Cells(r, 53)
+    stp = Workbooks("test(график).xlsx").Worksheets("test").Cells(r, 54)
+
+    For j = beg To stp
+        
+        For k = beg To stp
+            If (Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 3) Like "*selection_sort_*" _
+            And Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 3) Like "selection_sort*" _
+            And Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 4) <> Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 4) _
+            And Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 2) <> Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 2)) Or _
+            (Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 3) = Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 3) _
+            And Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 4) <> Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 4) _
+            And Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 2) <> Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 2)) Then
+            
+            Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 10) = Workbooks("test(график).xlsx").Worksheets("test").Cells(j, 10) & "," & Workbooks("test(график).xlsx").Worksheets("test").Cells(k, 4)
+            
+            End If
+            
+        Next k
+        
+     Next
+Next
+For t = 2 To lrow
+
+n = Len(Workbooks("test(график).xlsx").Worksheets("test").Cells(t, 10))
+    If n <> 0 Then
+
+    'n = Right(n, Len(n) - 1) - 1
+    Workbooks("test(график).xlsx").Worksheets("test").Cells(t, 10).Value = Right(Workbooks("test(график).xlsx").Worksheets("test").Cells(t, 10), n - 1)
+  End If
+Next
+Columns("BA:BB").Select
+Selection.ClearContents
+Workbooks("test(график).xlsx").Worksheets("test").Cells(1, 1).Select
+End Sub
